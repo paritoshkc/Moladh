@@ -1,7 +1,6 @@
 import sqlite3
 import sys
 
-
 class Database():
 
     def inputUser(self, conn, username, password, adult):
@@ -18,7 +17,7 @@ class Database():
 
     def createConnection(self):
         print('testing')
-        conn = sqlite3.connect("Moladh")
+        conn = sqlite3.connect("Moladh.db")
         return conn
 
     def createTables(self, conn):

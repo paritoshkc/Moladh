@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Moladh Movie Recommender</title>
+
+    <style type="text/css">
+        img{  width:60vw; height:30vw}
+        .registerText{
+            color: aliceblue;
+        }
+
+        .loginTextField{
+            width: 180px;
+        }
+    </style>
+
+</head>
+
+
+<body bgcolor="black">
+
+    <!-- System logo & name -->
+    <div align="center">
+        <img src="https://i.ibb.co/NCh49j6/logo.png" >
+    </div>
+
+    <br />
+
+
+    <!-- register block -->
+
+    <table align="center">
+        <tr>
+            <td>
+                <div  align="right">
+                    <label class = "registerText">Username: </label>
+                </div>
+            </td>
+
+            <td>
+                <div  align="left">
+                    <input type="text" name="username"  class = "loginTextField" />
+                </div>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                <div  align="right">
+                        <label class = "registerText">Password: </label>
+                </div>
+            </td>
+
+            <td>
+                <div  align="left">
+                        <input type="password" name="password"  class = "loginTextField" />
+                </div>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td>
+                <div align="right">
+                        <label class = "registerText">Age: </label>
+                </div>
+            </td>
+
+            <td>
+                <div  align="left">
+                        <input type="text" name="age"  class = "loginTextField" />
+                </div>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td>
+                <div  align="right">
+                    <label class = "registerText">Gender: </label>
+                </div>
+            </td>
+
+            <td>
+                <div  align="left">
+                    <input type="text" name="gender"  class = "loginTextField" />
+                </div>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td>
+                <div  align="right">
+                    <label class = "registerText">Nationality: </label>
+                </div>
+            </td>
+
+            <td>
+                <div  align="left">
+                    <input type="text" name="nationality"  class = "loginTextField" />
+                </div>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td>
+                <div  align="right">
+                    <label class = "registerText">Email: </label>
+                </div>
+            </td>
+
+            <td>
+                <div  align="left">
+                    <input type="text" name="email"  class = "loginTextField" />
+                </div>
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td>
+                <p></p>
+            </td>
+        </tr>
+
+
+    </table>
+
+
+
+    <div align="center">
+
+        <div>
+
+            <button onclick="register()" style="">Register</button>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <script>
+
+        <!-- function block -->
+
+        function register() {
+
+            //if users clicking the "register" button, the system will change to the login page
+            window.open('login-page.html')
+        }
+    </script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Moladh Movie Recommender</title>
+
+    <style type="text/css">
+        img{  width:60vw; height:30vw}
+        .loginText{
+            color: aliceblue;
+        }
+
+        .loginTextField{
+            width: 180px;
+        }
+    </style>
+</head>
+
+<body bgcolor="black">
+
+    <!-- System logo & name -->
+    <div align="center">
+        <img src="https://i.ibb.co/NCh49j6/logo.png" >
+    </div>
+
+    <br />
+    <br />
+
+    <!-- login block -->
+    <div align="center">
+
+
+        <div>
+            <form>
+              <label class = "loginText">Username: </label>
+              <input type="text" name="username" placeholder="Please input your username here." class = "loginTextField" />
+              <br />
+              <br />
+              <label class = "loginText">Password: </label>
+              <input type="password" name="password" placeholder="Please input your password here." class = "loginTextField"/>
+            </form>
+        </div>
+
+        <p></p>
+
+        <div>
+
+            <button onclick="login()" style="">Log in</button>
+
+        </div>
+
+    </div>
+
+
+    <p></p>
+    <!-- register block -->
+    <div align="center">
+
+        <!-- jump to the register page after the users clicking the button -->
+
+        <button onclick="register()">Register Here</button>
+
+    </div>
+
+
+    <script>
+
+        //if users clicking the "login" button
+        function login() {
+            window.location.href = "http://www.google.com/"
+        }
+
+
+        //if users clicking the "register" button, the system will change to the register page
+
+        function register() {
+            window.open('registration-page.html')
+        }
+    </script>
+
+</body>
+</html>

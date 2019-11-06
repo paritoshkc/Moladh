@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return render_template("index.html")
+    return render_template("login-page.html")
 
 @app.route('/check_user', methods=['POST'])
 def print_user_details():

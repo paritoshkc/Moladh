@@ -1,7 +1,6 @@
 import json
-
-from src import FinalVariables
-from src import database
+import FinalVariables
+import database
 import requests
 
 
@@ -13,10 +12,11 @@ class GenreDetails:
 
 database = database.Database()
 conn = database.createConnection()
+database.createTables(conn)
 
 
 def fetch_genres():
-    api_url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=' + FinalVariables.getAPIKey() + '&language=en-US';
+    api_url = 'https://api.themoviedb.org/3/genre/movie/list?api_key=' + FinalVariables.getAPIKey() + '&language=en-US'
     headers = {}
     response = requests.get(api_url, headers=headers)
     print(response)

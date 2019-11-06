@@ -1,5 +1,6 @@
 import sqlite3
 import sys
+import os
 
 class Database():
 
@@ -17,7 +18,9 @@ class Database():
 
     def createConnection(self):
         print('testing')
+        os.chdir("../DB")
         conn = sqlite3.connect("Moladh.db")
+        os.chdir("../src")
         return conn
 
     def createTables(self, conn):

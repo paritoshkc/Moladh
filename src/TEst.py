@@ -30,3 +30,5 @@ else:
     print('Error')
 
 print(movieDetails1.page)
+
+

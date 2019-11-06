@@ -3,6 +3,9 @@ import sys
 import os
 
 class Database():
+    def readUser(self,username):
+        conn.execute("Select * from User where Username=?",(username))
+        conn.commit()
 
     def inputUser(self, conn, username, password, adult):
         conn.execute("INSERT INTO User (Username, Password, Adult) VALUES (?, ?, ?);", (username, password, adult))

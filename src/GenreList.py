@@ -1,11 +1,12 @@
 import json
-import FinalVariables
-import database
+from src import FinalVariables
+from src import database
 import requests
 
 
 class GenreDetails:
     genres = []
+
     def __init__(self, genres):
         self.genres = genres
 
@@ -25,8 +26,7 @@ def fetch_genres():
         GenreDetails(data)
         genres = data['genres']
         for i in genres:
-            print(i)
-            database.createGenre(conn, i['id'], i['name'])
+            database.input_genre(conn, i['id'], i['name'])
     else:
         print('Error')
         return 0

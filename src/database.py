@@ -3,7 +3,7 @@ import sys
 import os
 
 class Database():
-    def readUser(self,username):
+    def readUser(self, conn, username):
         conn.execute("Select * from User where Username=?",(username))
         conn.commit()
 
@@ -11,20 +11,55 @@ class Database():
         conn.execute("INSERT INTO User (Username, Password, Adult) VALUES (?, ?, ?);", (username, password, adult))
         conn.commit()
 
-    def inputMovieWatched(self, conn, ID, movieID, Like):
-        conn.execute("INSERT INTO Movies_Watched (ID, MovieID, Like) VALUES (?, ?, ?);", (ID, movieID, Like))
+
+    def input_movie_watched(self, conn, user_id, movie_id, like):
+        conn.execute("INSERT INTO Movies_Watched (ID, MovieID, Like) VALUES (?, ?, ?);", (user_id, movie_id, like))
         conn.commit()
 
-    def createGenre(self, conn, ID, genre):
-        conn.execute("INSERT INTO Genres (ID, Genre_Name) VALUES (?, ?);", (ID, genre))
-        conn.commit()
+
+    def input_genre(self, conn, ID, Genre_Name):
+        cur = conn.cursor()
+        query = 'Select count() FROM Genres WHERE ID = ' + str(ID)
+        cur.execute(query)
+        rows = cur.fetchall()
+        if rows[0][0] <= 0:
+            conn.execute("INSERT INTO Genres (ID, Genre_Name) VALUES (?, ?);", (ID, Genre_Name))
+            conn.commit()
+
+    def upsert_user_preference(self, conn, user_id, genre_id, percentage):
+        cur = conn.cursor()
+        query = 'Select count() FROM User_Preferences WHERE ID = ' + str(user_id) + ' AND Genre_Id = ' + str(genre_id)
+        cur.execute(query)
+        rows = cur.fetchall()
+        if rows[0][0] <= 0:
+            conn.execute("INSERT INTO User_Preferences (ID, Genre_Id, Percent) VALUES (?, ?, ?);", (user_id, genre_id, percentage))
+            conn.commit()
+        else:
+            query = 'UPDATE User_Preferences SET Percent = ' + str(percentage) + \
+                    ' WHERE ID = ' + str(user_id) + ' AND Genre_Id = ' + str(genre_id)
+            cur = conn.cursor()
+            cur.execute(query)
+            conn.commit()
+
 
     def createConnection(self):
-        print('testing')
-        os.chdir("../DB")
-        conn = sqlite3.connect("Moladh.db")
-        os.chdir("../src")
+        conn = sqlite3.connect("Moladh")
         return conn
+
+
+    def fetch_users_preferences(self, conn):
+        cur = conn.cursor()
+        cur.execute("Select Genre_Id, Percent FROM User_Preferences")
+        rows = cur.fetchall()
+        return rows
+
+
+    def fetch_users_watched_movies(self, conn):
+        cur = conn.cursor()
+        cur.execute("Select MovieID FROM Movies_Watched")
+        rows = cur.fetchall()
+        return rows
+
 
     def createTables(self, conn):
         conn.execute(
@@ -53,6 +88,18 @@ class Database():
 
         conn.execute(
             '''
+                CREATE TABLE IF NOT EXISTS User_Preferences
+                (
+                    ID INTEGER,
+                    Genre_Id INTEGER,
+                    Percent INTEGER,
+                    FOREIGN KEY(ID) REFERENCES User(ID)
+                );
+            '''
+        )
+
+        conn.execute(
+            '''
                 CREATE TABLE IF NOT EXISTS Genres
                 (
                     ID INTEGER,
@@ -68,6 +115,7 @@ def main():
     database = Database()
     conn = database.createConnection()
     database.createTables(conn)
+    print('Tables created')
 
 
 if __name__ == "__main__":

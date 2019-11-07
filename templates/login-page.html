@@ -33,52 +33,41 @@
 
 
         <div>
-            <form>
+            <form action="/hello" method="POST">
               <label class = "loginText">Username: </label>
               <input type="text" name="username" placeholder="Please input your username here." class = "loginTextField" />
               <br />
               <br />
               <label class = "loginText">Password: </label>
               <input type="password" name="password" placeholder="Please input your password here." class = "loginTextField"/>
+              <input type="submit" value="Login"/>
             </form>
         </div>
 
         <p></p>
 
-        <div>
+            <div align="center"></div>
 
-            <button onclick="login()" style="">Log in</button>
-
-        </div>
+                <!-- jump to the register page after the users clicking the button -->
+                
+                
+                </form>
+            </div>
 
     </div>
-
+    
 
     <p></p>
     <!-- register block -->
     <div align="center">
 
         <!-- jump to the register page after the users clicking the button -->
-
-        <button onclick="register()">Register Here</button>
-
+        <form action="/registration" method="GET">
+        <input type="submit" value="Register"/>
+        </form>
     </div>
 
 
-    <script>
-
-        //if users clicking the "login" button
-        function login() {
-            window.location.href = "http://www.google.com/"
-        }
-
-
-        //if users clicking the "register" button, the system will change to the register page
-
-        function register() {
-            window.open('registration-page.html')
-        }
-    </script>
 
 </body>
 </html>

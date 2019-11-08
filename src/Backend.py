@@ -3,6 +3,8 @@ import json
 from src import database
 from src import FinalVariables
 import urllib.parse
+import operator
+
 
 database = database.Database()
 conn = database.createConnection()
@@ -13,14 +15,13 @@ def user_watches_movie(user_id, movie_details, like):
     update_user_preferences(user_id, movie_details)
 
 
-def filter_users_movies():
+def filter_users_movies(user_id):
     user_watched_movies = database.fetch_users_watched_movies(conn)
     watched_movies_id = []
     for i in user_watched_movies:
         watched_movies_id.append(i[0])
-
     no_of_movies = FinalVariables.get_number_of_movies_to_be_displayed()
-    user_genre_preferences = database.fetch_users_preferences(conn)
+    user_genre_preferences = database.fetch_users_preferences(conn, user_id)
     genre_weight = {}
     for i in user_genre_preferences:
         weight = (i[1] * no_of_movies) / 100
@@ -74,7 +75,7 @@ def get_search_results(user_id, query):
 def update_user_preferences(user_id, movie_details):
     percentage_decrease = FinalVariables.get_percentage_decrease_in_genre()
     movie_genre_ids = movie_details['genre_ids']
-    user_preferences = database.fetch_users_preferences(conn)
+    user_preferences = database.fetch_users_preferences(conn, user_id)
     genre_percentage = {}
     updated_genre_percentage = {}
     for i in user_preferences:
@@ -95,4 +96,37 @@ def update_user_preferences(user_id, movie_details):
     print('done')
 
 
-get_search_results('1234', 'The lion king')
+def find_similar_users(user_id):
+    all_users_preferences = database.fetch_all_users_preferences(conn)
+    user_preferences = database.fetch_users_preferences(conn, user_id)
+    current_user_preferences = {}
+    for i in user_preferences:
+        current_user_preferences[i[0]] = i[1]
+    user_data_dictionary = {}
+    for i in all_users_preferences:
+        if i[0] in user_data_dictionary.keys():
+            data = user_data_dictionary[i[0]]
+            data[i[1]] = i[2]
+            user_data_dictionary[i[0]] = data
+        else:
+            data = {i[1]: i[2]}
+            user_data_dictionary[i[0]] = data
+    similar_user_scores = {}
+    for i in user_data_dictionary.keys():
+        user_preference = user_data_dictionary[i]
+        difference = 0
+        for current_key in current_user_preferences.keys():
+            if current_key in user_preference.keys():
+                difference = difference + abs(current_user_preferences[current_key] - user_preference[current_key])
+            else:
+                difference = difference + current_user_preferences[current_key]
+        similar_user_scores[i] = round(difference, 2)
+    print(similar_user_scores)
+    sorted_user_scores = sorted(similar_user_scores.items(), key=operator.itemgetter(1))
+    return sorted_user_scores
+
+
+similar_users = find_similar_users('1234')
+print(similar_users)
+
+#get_search_results('1238', 'Wick')

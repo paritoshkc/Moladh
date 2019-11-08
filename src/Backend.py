@@ -13,14 +13,14 @@ def user_watches_movie(user_id, movie_details, like):
     update_user_preferences(user_id, movie_details)
 
 
-def filter_users_movies():
+def filter_users_movies(user_id):
     user_watched_movies = database.fetch_users_watched_movies(conn)
     watched_movies_id = []
     for i in user_watched_movies:
         watched_movies_id.append(i[0])
 
     no_of_movies = FinalVariables.get_number_of_movies_to_be_displayed()
-    user_genre_preferences = database.fetch_users_preferences(conn)
+    user_genre_preferences = database.fetch_users_preferences(conn, user_id)
     genre_weight = {}
     for i in user_genre_preferences:
         weight = (i[1] * no_of_movies) / 100
@@ -74,7 +74,7 @@ def get_search_results(user_id, query):
 def update_user_preferences(user_id, movie_details):
     percentage_decrease = FinalVariables.get_percentage_decrease_in_genre()
     movie_genre_ids = movie_details['genre_ids']
-    user_preferences = database.fetch_users_preferences(conn)
+    user_preferences = database.fetch_users_preferences(conn, user_id)
     genre_percentage = {}
     updated_genre_percentage = {}
     for i in user_preferences:
@@ -90,9 +90,11 @@ def update_user_preferences(user_id, movie_details):
     for genre in genre_percentage.keys():
         if genre in movie_genre_ids:
             updated_genre_percentage[genre] = round(genre_percentage[genre] + total_percentage_decreased/len(movie_genre_ids), 2)
-    for genre in updated_genre_percentage:
+    for genre in updated_genre_percentage.keys():
         database.upsert_user_preference(conn, user_id, genre, updated_genre_percentage[genre])
+    print(genre_percentage)
+    print(updated_genre_percentage)
     print('done')
 
 
-get_search_results('1234', 'The lion king')
+get_search_results('1242', 'Transformers')

@@ -47,9 +47,10 @@ class Database():
         return conn
 
 
-    def fetch_users_preferences(self, conn):
+    def fetch_users_preferences(self, conn, user_id):
+        query = 'Select Genre_Id, Percent FROM User_Preferences WHERE ID =' + str(user_id)
         cur = conn.cursor()
-        cur.execute("Select Genre_Id, Percent FROM User_Preferences")
+        cur.execute(query)
         rows = cur.fetchall()
         return rows
 

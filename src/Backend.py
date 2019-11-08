@@ -86,13 +86,21 @@ def update_user_preferences(user_id, movie_details):
     total_percentage_decreased = 0
     for genre in genre_percentage.keys():
         if genre not in movie_genre_ids:
-            updated_genre_percentage[genre] = genre_percentage[genre] - percentage_decrease
-            total_percentage_decreased = total_percentage_decreased + percentage_decrease
+            if genre_percentage[genre] >= percentage_decrease:
+                updated_genre_percentage[genre] = genre_percentage[genre] - percentage_decrease
+                total_percentage_decreased = total_percentage_decreased + percentage_decrease
+            else:
+                current_percentage_decrease = genre_percentage[genre]
+                updated_genre_percentage[genre] = 0
+                total_percentage_decreased = total_percentage_decreased + current_percentage_decrease
     for genre in genre_percentage.keys():
         if genre in movie_genre_ids:
             updated_genre_percentage[genre] = round(genre_percentage[genre] + total_percentage_decreased/len(movie_genre_ids), 2)
     for genre in updated_genre_percentage:
         database.upsert_user_preference(conn, user_id, genre, updated_genre_percentage[genre])
+    print(movie_genre_ids)
+    print(genre_percentage)
+    print(updated_genre_percentage)
     print('done')
 
 
@@ -126,7 +134,7 @@ def find_similar_users(user_id):
     return sorted_user_scores
 
 
-similar_users = find_similar_users('1234')
-print(similar_users)
+#similar_users = find_similar_users('1234')
+#print(similar_users)
 
-#get_search_results('1238', 'Wick')
+get_search_results('1238', 'Simba')

@@ -4,8 +4,10 @@ import os
 
 class Database():
     def readUser(self, conn, username):
-        conn.execute("Select * from User where Username=?",(username))
-        conn.commit()
+        cur=conn.cursor()
+        cur.execute("Select ID from User where Username=?",(username,))
+        rows=cur.fetchall()
+        return rows
 
     def inputUser(self, conn, username, password, adult):
         conn.execute("INSERT INTO User (Username, Password, Adult) VALUES (?, ?, ?);", (username, password, adult))
@@ -43,7 +45,7 @@ class Database():
 
 
     def createConnection(self):
-        conn = sqlite3.connect("Moladh")
+        conn = sqlite3.connect("src\Moladh")
         return conn
 
 

@@ -29,121 +29,123 @@
 
 
     <!-- register block -->
-
-    <table align="center">
-        <tr>
-            <td>
-                <div  align="right">
-                    <label class = "registerText">Username: </label>
-                </div>
-            </td>
-
-            <td>
-                <div  align="left">
-                    <input type="text" name="username"  class = "loginTextField" />
-                </div>
-            </td>
-
-        </tr>
-
-        <tr>
-            <td>
-                <div  align="right">
-                        <label class = "registerText">Password: </label>
-                </div>
-            </td>
-
-            <td>
-                <div  align="left">
-                        <input type="password" name="password"  class = "loginTextField" />
-                </div>
-            </td>
-
-        </tr>
-
-
-        <tr>
-            <td>
-                <div align="right">
-                        <label class = "registerText">Age: </label>
-                </div>
-            </td>
-
-            <td>
-                <div  align="left">
-                        <input type="text" name="age"  class = "loginTextField" />
-                </div>
-            </td>
-
-        </tr>
-
-
-        <tr>
-            <td>
-                <div  align="right">
-                    <label class = "registerText">Gender: </label>
-                </div>
-            </td>
-
-            <td>
-                <div  align="left">
-                    <input type="text" name="gender"  class = "loginTextField" />
-                </div>
-            </td>
-
-        </tr>
-
-
-        <tr>
-            <td>
-                <div  align="right">
-                    <label class = "registerText">Nationality: </label>
-                </div>
-            </td>
-
-            <td>
-                <div  align="left">
-                    <input type="text" name="nationality"  class = "loginTextField" />
-                </div>
-            </td>
-
-        </tr>
-
-
-        <tr>
-            <td>
-                <div  align="right">
-                    <label class = "registerText">Email: </label>
-                </div>
-            </td>
-
-            <td>
-                <div  align="left">
-                    <input type="text" name="email"  class = "loginTextField" />
-                </div>
-            </td>
-
-        </tr>
-
-
-        <tr>
-            <td>
-                <p></p>
-            </td>
-        </tr>
-
-
-    </table>
-
-
-
-    <div align="center">
+<div align="center">
 
         <div>
 
-            <form action="/" method="GET">
-                <input type="submit" value="Register"/>
-                </form>
+            <form action="/registered" method="POST">
+                        <table align="center">
+                            <tr>
+                                <td>
+                                    <div  align="right">
+                                        <label class = "registerText">Username: </label>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div  align="left">
+                                        <input type="text" name="username"  class = "loginTextField" />
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <div  align="right">
+                                            <label class = "registerText">Password: </label>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div  align="left">
+                                            <input type="password" name="password"  class = "loginTextField" />
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div align="right">
+                                            <label class = "registerText">DOB: </label>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div  align="left">
+                                            <input type="date" name="DOB"  class = "loginTextField" />
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div  align="right">
+                                        <label class = "registerText">Gender: </label>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div  align="left">
+                                        <label for="gender">Favorite Team:</label>
+                                            <input type="text" name="gender" id="gender" list="gender_list" class = "loginTextField">
+                                                <datalist id="gender_list">
+                                                  <option>Male</option>
+                                                  <option>Female</option>
+                                                  <option>Other</option>
+                                                </datalist>
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div  align="right">
+                                        <label class = "registerText">Nationality: </label>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div  align="left">
+                                        <input type="text" name="nationality"  class = "loginTextField" />
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <div  align="right">
+                                        <label class = "registerText">Email: </label>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    <div  align="left">
+                                        <input type="text" name="email"  class = "loginTextField" />
+                                    </div>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+                                <td>
+                                    <p></p>
+                                </td>
+                            </tr>
+
+
+                        </table>
+          <input type="submit" value="Register"/>
+            </form>
 
         </div>
 

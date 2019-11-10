@@ -48,7 +48,7 @@ def fetch_movies_for_user(user_id):
                 filtered_results.append(result)
                 count = count + 1
             if count == total_count:
-                break;
+                break
     filtered_result_objects = []
     for result in filtered_results:
         movie_object = MovieDetails(result['original_title'], result['vote_average'], result['overview'],
@@ -182,10 +182,39 @@ def get_similar_user_movies(current_user_id, similar_user_id):
     return recommended_movies_objects
 
 
-similar_users = find_similar_users('1234')
-movies = get_similar_user_movies(similar_users[0][0], similar_users[1][0])
-print(movies[0].id, ' ', movies[1].id)
+def get_interested_in_movies_for_user(user_id):
+    current_user_movies = database.fetch_users_watched_movies(conn, user_id)
+    user_movies = []
+    for movie in current_user_movies:
+        user_movies.append(movie[0])
 
-#fetch_movies_for_user('1236')
 
-#get_search_results('1238', 'Simba')
+def get_trending_movies(user_id):
+    current_user_movies = database.fetch_users_watched_movies(conn, user_id)
+    user_movies = []
+    for movie in current_user_movies:
+        user_movies.append(movie[0])
+    api_end_point = 'https://api.themoviedb.org/3/trending/movie/day?api_key=' + FinalVariables.getAPIKey() + '&page=1'
+    headers = {}
+    response = requests.get(api_end_point, headers=headers)
+    trending_movies_objects = []
+    if response.status_code == 200:
+        data = json.loads(response.content)
+        results = data['results']
+        for result in results:
+            if result['id'] not in user_movies:
+                movie_object = MovieDetails(result['original_title'], result['id'], result['vote_average'],
+                                            result['overview'], result['release_date'], result['adult'],
+                                            result['poster_path'], result['genre_ids'])
+                trending_movies_objects.append(movie_object)
+    return trending_movies_objects
+
+
+# similar_users = find_similar_users('1234')
+# movies = get_similar_user_movies(similar_users[0][0], similar_users[1][0])
+# print(movies[0].id, ' ', movies[1].id)
+
+movies = get_trending_movies('1234')
+print(movies[0].id)
+# fetch_movies_for_user('1236')
+# get_search_results('1238', 'Samba')

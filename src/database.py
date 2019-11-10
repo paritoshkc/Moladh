@@ -92,6 +92,7 @@ class Database():
                     ID INTEGER,
                     MovieID INTEGER,
                     Like BOOL,
+                    Date DATE,
                     FOREIGN KEY(ID) REFERENCES User(ID)
                 );
             '''

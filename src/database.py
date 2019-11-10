@@ -45,7 +45,7 @@ class Database():
 
 
     def createConnection(self):
-        conn = sqlite3.connect("src\Moladh")
+        conn = sqlite3.connect("Moladh")
         return conn
 
 
@@ -64,9 +64,10 @@ class Database():
         return rows
 
 
-    def fetch_users_watched_movies(self, conn):
+    def fetch_users_watched_movies(self, conn, user_id):
         cur = conn.cursor()
-        cur.execute("Select MovieID FROM Movies_Watched")
+        query = 'Select MovieID, Like FROM Movies_Watched WHERE ID = ' + str(user_id)
+        cur.execute(query)
         rows = cur.fetchall()
         return rows
 

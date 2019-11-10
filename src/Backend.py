@@ -10,13 +10,25 @@ database = database.Database()
 conn = database.createConnection()
 
 
+class MovieDetails:
+    def __init__(self, title, movie_id, movie_rating, overview, release_date, adult, poster_path, genre_ids):
+        self.original_title = title
+        self.id = movie_id
+        self.rating = movie_rating
+        self.overview = overview
+        self.release_date = release_date
+        self.adult = adult
+        self.poster_path = poster_path
+        self.genre_ids = genre_ids
+
+
 def user_watches_movie(user_id, movie_details, like):
     database.input_movie_watched(conn, user_id, movie_details['id'], like)
     update_user_preferences(user_id, movie_details)
 
 
-def filter_users_movies(user_id):
-    user_watched_movies = database.fetch_users_watched_movies(conn)
+def fetch_movies_for_user(user_id):
+    user_watched_movies = database.fetch_users_watched_movies(conn, user_id)
     watched_movies_id = []
     for i in user_watched_movies:
         watched_movies_id.append(i[0])
@@ -26,11 +38,9 @@ def filter_users_movies(user_id):
     for i in user_genre_preferences:
         weight = (i[1] * no_of_movies) / 100
         genre_weight[str(i[0])] = round(weight)
-    print(user_genre_preferences)
-    print(genre_weight)
     filtered_results = []
     for i in user_genre_preferences:
-        results = fetch_users_movies(i[0])
+        results = fetch_movies_by_genre(i[0])
         count = 0
         total_count = genre_weight[str(i[0])]
         for result in results:
@@ -39,12 +49,15 @@ def filter_users_movies(user_id):
                 count = count + 1
             if count == total_count:
                 break;
-    print(len(filtered_results))
+    filtered_result_objects = []
     for result in filtered_results:
-        print(result['original_title'], ' ', result['id'])
+        movie_object = MovieDetails(result['original_title'], result['vote_average'], result['overview'],
+                                    result['release_date'], result['adult'], result['poster_path'], result['genre_ids'])
+        filtered_result_objects.append(movie_object)
+    return filtered_result_objects
 
 
-def fetch_users_movies(genre_id):
+def fetch_movies_by_genre(genre_id):
     api_end_point = 'https://api.themoviedb.org/3/discover/movie?api_key=' + FinalVariables.getAPIKey() + \
                     '&language=en-US&sort_by=popularity.desc&include_video=false&page=1&with_genres=' + str(genre_id)
     headers = {}
@@ -95,13 +108,13 @@ def update_user_preferences(user_id, movie_details):
                 total_percentage_decreased = total_percentage_decreased + current_percentage_decrease
     for genre in genre_percentage.keys():
         if genre in movie_genre_ids:
-            updated_genre_percentage[genre] = round(genre_percentage[genre] + total_percentage_decreased/len(movie_genre_ids), 2)
+            updated_genre_percentage[genre] = round(genre_percentage[genre] +
+                                                    total_percentage_decreased/len(movie_genre_ids), 2)
     for genre in updated_genre_percentage:
         database.upsert_user_preference(conn, user_id, genre, updated_genre_percentage[genre])
     print(movie_genre_ids)
     print(genre_percentage)
     print(updated_genre_percentage)
-    print('done')
 
 
 def find_similar_users(user_id):
@@ -129,12 +142,50 @@ def find_similar_users(user_id):
             else:
                 difference = difference + current_user_preferences[current_key]
         similar_user_scores[i] = round(difference, 2)
-    print(similar_user_scores)
     sorted_user_scores = sorted(similar_user_scores.items(), key=operator.itemgetter(1))
     return sorted_user_scores
 
 
-#similar_users = find_similar_users('1234')
-#print(similar_users)
+def get_similar_user_movies(current_user_id, similar_user_id):
+    current_user_movies = database.fetch_users_watched_movies(conn, current_user_id)
+    user_movies = []
+    for movie in current_user_movies:
+        user_movies.append(movie[0])
+    similar_user_movies = database.fetch_users_watched_movies(conn, similar_user_id)
+    recommended_movies = []
+    similar_user_liked_movies = []
+    for movie in similar_user_movies:
+        if movie[1] == 1:
+            similar_user_liked_movies.append(movie[0])
+    for similar_movie in similar_user_liked_movies:
+        if similar_movie not in user_movies:
+            recommended_movies.append(similar_movie)
+    recommended_movies_objects = []
+    count = 0
+    for recommended_movie in recommended_movies:
+        count = count + 1
+        api_end_point = 'https://api.themoviedb.org/3/movie/' + str(recommended_movie) + '?api_key=' + \
+                        FinalVariables.getAPIKey() + '&language=en-US'
+        headers = {}
+        response = requests.get(api_end_point, headers=headers)
+        if response.status_code == 200:
+            data = json.loads(response.content)
+            genres = data['genres']
+            genres_ids = []
+            for genre in genres:
+                genres_ids.append(genre['id'])
+            movie_object = MovieDetails(data['original_title'], data['id'], data['vote_average'], data['overview'],
+                                        data['release_date'], data['adult'], data['poster_path'], genres_ids)
+            recommended_movies_objects.append(movie_object)
+            if count == 5:
+                break
+    return recommended_movies_objects
 
-get_search_results('1238', 'Simba')
+
+similar_users = find_similar_users('1234')
+movies = get_similar_user_movies(similar_users[0][0], similar_users[1][0])
+print(movies[0].id, ' ', movies[1].id)
+
+#fetch_movies_for_user('1236')
+
+#get_search_results('1238', 'Simba')

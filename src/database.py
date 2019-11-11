@@ -6,13 +6,17 @@ class Database():
     def readUser(self, conn, username):
         cur=conn.cursor()
         cur.execute("Select ID from User where Username=?",(username,))
-        rows=cur.fetchall()
+        id=cur.fetchall()
+        rows=[i[0] for i in id]
         return rows
 
     def inputUser(self, conn, username, password, adult):
         conn.execute("INSERT INTO User (Username, Password, Adult) VALUES (?, ?, ?);", (username, password, adult))
         conn.commit()
 
+    def input_preferences(self, conn, username, genre):
+        conn.execute("INSERT INTO User_Preferences (ID, Genre_ID) VALUES (?, ?);", (username,genre))
+        conn.commit()
 
     def input_movie_watched(self, conn, user_id, movie_id, like):
         conn.execute("INSERT INTO Movies_Watched (ID, MovieID, Like) VALUES (?, ?, ?);", (user_id, movie_id, like))
@@ -27,6 +31,30 @@ class Database():
         if rows[0][0] <= 0:
             conn.execute("INSERT INTO Genres (ID, Genre_Name) VALUES (?, ?);", (ID, Genre_Name))
             conn.commit()
+    
+    def readGenre(self, conn):
+        cur=conn.cursor()
+        cur.execute("Select [Genre_Name] from Genres")
+        genre_name=cur.fetchall()
+        rows=[i[0] for i in genre_name]
+        conn.commit()
+        return rows
+
+    def readGenreID(self, conn):
+        cur=conn.cursor()
+        cur.execute("Select ID from Genres")
+        genre_ID=cur.fetchall()
+        rows=[i[0] for i in genre_ID]
+        conn.commit()
+        return rows
+
+    def readID_fromGenres(self,conn,genre):
+        cur=conn.cursor()
+        cur.execute("Select Genre_Name from Genres where ID=?",genre)
+        genre_name=cur.fetchall()
+        rows=[i[0] for i in genre_name]
+        conn.commit()
+        return rows 
 
     def upsert_user_preference(self, conn, user_id, genre_id, percentage):
         cur = conn.cursor()
@@ -45,7 +73,7 @@ class Database():
 
 
     def createConnection(self):
-        conn = sqlite3.connect("Moladh")
+        conn = sqlite3.connect("Moladh.db")
         return conn
 
 

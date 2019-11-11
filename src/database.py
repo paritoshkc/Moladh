@@ -6,7 +6,8 @@ class Database():
     def readUser(self, conn, username):
         cur=conn.cursor()
         cur.execute("Select ID from User where Username=?",(username,))
-        rows=cur.fetchall()
+        id=cur.fetchall()
+        rows=[i[0] for i in id]
         return rows
 
     def inputUser(self, conn, username, password, adult):
@@ -35,15 +36,25 @@ class Database():
         cur=conn.cursor()
         cur.execute("Select [Genre_Name] from Genres")
         genre_name=cur.fetchall()
+        rows=[i[0] for i in genre_name]
         conn.commit()
-        return genre_name
+        return rows
 
-    def readGenreID(self,conn,genre):
+    def readGenreID(self, conn):
         cur=conn.cursor()
-        query='SELECT ID FROM Genres WHERE Genre_Name = ' + str(genre)
-        cur.execute(query)
-        id = cur.fetchall()
-        return id 
+        cur.execute("Select ID from Genres")
+        genre_ID=cur.fetchall()
+        rows=[i[0] for i in genre_ID]
+        conn.commit()
+        return rows
+
+    def readID_fromGenres(self,conn,genre):
+        cur=conn.cursor()
+        cur.execute("Select Genre_Name from Genres where ID=?",genre)
+        genre_name=cur.fetchall()
+        rows=[i[0] for i in genre_name]
+        conn.commit()
+        return rows 
 
     def upsert_user_preference(self, conn, user_id, genre_id, percentage):
         cur = conn.cursor()

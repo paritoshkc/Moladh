@@ -8,6 +8,9 @@ database = dp.Database()
 conn = database.createConnection()
 database.createTables(conn)
 genre=database.readGenre(conn)
+genre_ID=database.readGenreID(conn)
+
+
 
 def calculateAge(birthDate):
     today = datetime.today()
@@ -55,8 +58,8 @@ def welcome():
     con = database.createConnection()
     database.createTables(con)
     database.inputUser(con, user, password, adult)
-    #username = database.readUser(con, user)
-    return render_template('welcome-page.html', username=user,genrename=genre)
+    username = database.readUser(con, user)
+    return render_template('welcome-page.html', username=user,genrename=genre,genreid=genre_ID)
 
 @app.route('/genre_page',methods=['POST'])
 def genre_section():
@@ -65,14 +68,17 @@ def genre_section():
     #database.createTables(con_genre)
     checkboxes=request.form.getlist('check')
     test_arr=[]
+    genre_name=[]
+
     i=0
     for check in checkboxes:
         test_arr.append(str(check))
-        id=database.readGenreID(con_genre,test_arr[i])
-        database.input_preferences(con_genre, 1, id)
+        print(test_arr)
+        #id=database.readGenreID(con_genre,test_arr[i])
+        database.input_preferences(con_genre, 1, test_arr[i])
         i=i+1
     #print(user_set)
-    return render_template('home-page.html',genrename=test_arr)
+    return render_template('home-page.html')
 
     
 @app.route('/check_user', methods=['POST'])

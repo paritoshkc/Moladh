@@ -4,6 +4,13 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+database = dp.Database()
+conn = database.createConnection()
+database.createTables(conn)
+genre=database.readGenre(conn)
+genre_ID=database.readGenreID(conn)
+
+
 
 def calculateAge(birthDate):
     today = datetime.today()
@@ -27,7 +34,7 @@ def register():
         if request.form['username'] != "":
             username = request.form['username']
             password = request.form['password']
-    return render_template('welcome-page.html', username=username)
+    return render_template('home-page.html', username=username)
 
 
 @app.route('/registered', methods=['POST'])
@@ -51,9 +58,28 @@ def welcome():
     database.createTables(con)
     database.inputUser(con, user, password, adult)
     username = database.readUser(con, user)
-    return render_template('welcome-page.html', username=username)
+    return render_template('welcome-page.html', username=user,genrename=genre,genreid=genre_ID)
 
+@app.route('/genre_page',methods=['POST'])
+def genre_section():
+    #user = request.form['username']
+    con_genre = database.createConnection()
+    #database.createTables(con_genre)
+    checkboxes=request.form.getlist('check')
+    test_arr=[]
+    genre_name=[]
 
+    i=0
+    for check in checkboxes:
+        test_arr.append(str(check))
+        print(test_arr)
+        #id=database.readGenreID(con_genre,test_arr[i])
+        database.input_preferences(con_genre, 1, test_arr[i])
+        i=i+1
+    #print(user_set)
+    return render_template('home-page.html')
+
+    
 @app.route('/check_user', methods=['POST'])
 def print_user_details():
     if request.method == 'POST':

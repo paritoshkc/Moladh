@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+            <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stylesheets/login-page.css') }}">
+            <title> Moladh </title>
+    </head>
+
+<body>
+        <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,600' rel='stylesheet' type='text/css'>
+
+        <div class="box">
+            <form method="POST" action="/hello">
+                <h1>Moladh</h1>
+                <input type="text" name="username" placeholder="Username" class="email" />
+                <input type="password" name="password" placeholder="Password" class="email" />
+                <input type="submit" class="btn" value="Sign In"/><!-- End Btn -->
+                <!--<input type="submit" class="btn" value="Sign Up" name="up"/> End Btn -->
+                <!--<a href="#"><div id="btn2">Sign Up</div></a>-->
+            </form>
+            <form action="/registration" method="GET">
+                    <input type="submit" id="btn2" value="Register"/>
+            </form>
+        </div>
+        <!--<p>New to Moladh? <u style="color:#f1c40f;">Sign up here!</u></p> -->
+          
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
+</body>
+</html>  
+
+
+<!--
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="./login-page.css">
+        ---- Include the above in your HEAD tag ----------
+    </head>
+    
+    <body>
+        
+
+<!-
+<head>
+    <meta charset="UTF-8">
+    <title>Moladh Movie Recommender</title>
+
+    <style type="text/css">
+        img{  width:60vw; height:30vw}
+        .loginText{
+            color: aliceblue;
+        }
+
+        .loginTextField{
+            width: 180px;
+        }
+    </style>
+</head>
+
+<body bgcolor="black">
+
+     System logo & name 
+    <div align="center">
+        <img src="https://i.ibb.co/NCh49j6/logo.png" >
+    </div>
+
+    <br />
+    <br />
+
+     login block 
+    <div align="center">
+
+
+        <div>
+            <form action="/hello" method="POST">
+              <label class = "loginText">Username: </label>
+              <input type="text" name="username" placeholder="Please input your username here." class = "loginTextField" />
+              <br />
+              <br />
+              <label class = "loginText">Password: </label>
+              <input type="password" name="password" placeholder="Please input your password here." class = "loginTextField"/>
+              <input type="submit" value="Login"/>
+            </form>
+        </div>
+
+        <p></p>
+
+            <div align="center"></div>
+
+                jump to the register page after the users clicking the button 
+                
+                
+                </form>
+            </div>
+
+    </div>
+    
+
+    <p></p>
+register block 
+    <div align="center">
+   jump to the register page after the users clicking the button 
+        <form action="/registration" method="GET">
+        <input type="submit" value="Register"/>
+        </form>
+    </div>
+
+-->

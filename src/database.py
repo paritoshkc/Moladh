@@ -73,7 +73,7 @@ class Database():
 
 
     def createConnection(self):
-        conn = sqlite3.connect("Moladh.db")
+        conn = sqlite3.connect("Moladh.db", check_same_thread = False)
         return conn
 
 

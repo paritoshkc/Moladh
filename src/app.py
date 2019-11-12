@@ -1,16 +1,17 @@
-from flask import Flask, render_template, request
-from src import database as dp
+from flask import Flask, render_template, request, redirect, url_for, session
+import database as dp
 from datetime import datetime
+import secrets
 
 app = Flask(__name__)
+
+app.config["SECRET_KEY"] = secrets.token_urlsafe(16)
 
 database = dp.Database()
 conn = database.createConnection()
 database.createTables(conn)
 genre=database.readGenre(conn)
 genre_ID=database.readGenreID(conn)
-
-
 
 def calculateAge(birthDate):
     today = datetime.today()
@@ -31,22 +32,34 @@ def reg():
 @app.route('/hello', methods=['POST'])
 def register():
     if request.method == 'POST':
-        if request.form['username'] != "":
-            username = request.form['username']
-            password = request.form['password']
-    return render_template('home-page.html', username=username)
+
+        req = request.form
+
+        username = req.get('username')
+        password = req.get('password')
+
+        if username:
+            session["USERNAME"] = username
+            session["USER_ID"] = database.readUser(conn, username)
+            #return render_template('home-page.html', username = username)
+            return render_template('home-page.html')
+        
+        else:
+            return render_template('login-page.html')
 
 
 @app.route('/registered', methods=['POST'])
 def welcome():
-    user = request.form['username']
-    password = request.form['password']
-    gender = request.form['gender']
-    nationality = request.form['nationality']
-    email = request.form['email']
-    dob = request.form['DOB']
 
-    # if the user is adult of not
+    req = request.form
+
+    user = req.get('username')
+    password = req.get('password')
+    gender = req.get('gender')
+    #nationality = request.form['nationality']
+    #email = request.form['email']
+    dob = req.get('DOB')
+    # if the user is adult or not
     adult = False
     if calculateAge(datetime.strptime(dob, '%Y-%m-%d')) > 18:
         adult = True
@@ -58,6 +71,9 @@ def welcome():
     database.createTables(con)
     database.inputUser(con, user, password, adult)
     username = database.readUser(con, user)
+    session["USERNAME"] = user
+    #session["USER_ID"] = dp.Database.readUser(conn = conn, username = session.get("USERNAME"))
+    session["USER_ID"] = username
     return render_template('welcome-page.html', username=user,genrename=genre,genreid=genre_ID)
 
 @app.route('/genre_page',methods=['POST'])
@@ -76,7 +92,8 @@ def genre_section():
         percent.append(round((100/total_genres),2))
         print(test_arr)
         #id=database.readGenreID(con_genre,test_arr[i])
-        database.input_preferences(con_genre, 1, test_arr[i],percent[i])
+        print(session)
+        database.input_preferences(conn = con_genre, username = session.get("USER_ID")[-1], genre = test_arr[i], percent = percent[i])
         i=i+1
     #print(user_set)
     return render_template('home-page.html')

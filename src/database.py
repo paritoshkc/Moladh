@@ -14,8 +14,8 @@ class Database():
         conn.execute("INSERT INTO User (Username, Password, Adult) VALUES (?, ?, ?);", (username, password, adult))
         conn.commit()
 
-    def input_preferences(self, conn, username, genre):
-        conn.execute("INSERT INTO User_Preferences (ID, Genre_ID) VALUES (?, ?);", (username,genre))
+    def input_preferences(self, conn, username, genre, percent):
+        conn.execute("INSERT INTO User_Preferences (ID, Genre_ID,percent) VALUES (?, ?, ?);", (username,genre,percent))
         conn.commit()
 
     def input_movie_watched(self, conn, user_id, movie_id, like):

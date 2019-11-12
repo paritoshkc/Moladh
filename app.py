@@ -64,17 +64,19 @@ def welcome():
 def genre_section():
     #user = request.form['username']
     con_genre = database.createConnection()
-    #database.createTables(con_genre)
+    #database.createTables(con_genre)s
     checkboxes=request.form.getlist('check')
     test_arr=[]
     genre_name=[]
-
+    total_genres=len(checkboxes)
+    percent=[]
     i=0
     for check in checkboxes:
         test_arr.append(str(check))
+        percent.append(round((100/total_genres),2))
         print(test_arr)
         #id=database.readGenreID(con_genre,test_arr[i])
-        database.input_preferences(con_genre, 1, test_arr[i])
+        database.input_preferences(con_genre, 1, test_arr[i],percent[i])
         i=i+1
     #print(user_set)
     return render_template('home-page.html')

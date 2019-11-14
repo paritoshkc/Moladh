@@ -1,7 +1,7 @@
 import requests
 import json
-from src import database
-from src import FinalVariables
+import database
+import FinalVariables
 import urllib.parse
 import operator
 
@@ -62,7 +62,7 @@ def fetch_movies_for_user(user_id):
                 break
     filtered_result_objects = []
     for result in filtered_results:
-        movie_object = MovieDetails(result['original_title'], result['vote_average'], result['overview'],
+        movie_object = MovieDetails(result['original_title'], result['id'], result['vote_average'], result['overview'],
                                     result['release_date'], result['adult'], result['poster_path'], result['genre_ids'])
         filtered_result_objects.append(movie_object)
     return filtered_result_objects
@@ -170,24 +170,26 @@ def find_similar_users(user_id):
     return sorted_user_scores
 
 
-def get_similar_user_movies(current_user_id, similar_user_id):
+def get_similar_user_movies(user_id):
     """----------------------------------------------------------------------
     Function to fetch movies watched by the similar user
     ----------------------------------------------------------------------"""
-    current_user_movies = database.fetch_users_watched_movies(conn, current_user_id)
+    similar_users = find_similar_users(user_id)
+    most_similar_user_id = similar_users[1][0]
+    current_user_movies = database.fetch_users_watched_movies(conn, user_id)
     user_movies = []
-    for movie in current_user_movies:
-        user_movies.append(movie[0])
-    similar_user_movies = database.fetch_users_watched_movies(conn, similar_user_id)
+    for current_user_movie in current_user_movies:
+        user_movies.append(current_user_movie[0])
+    similar_user_movies = database.fetch_users_watched_movies(conn, most_similar_user_id)
     recommended_movies = []
     similar_user_liked_movies = []
-    for movie in similar_user_movies:
-        if movie[1] == 1:
-            similar_user_liked_movies.append(movie[0])
+    for similar_user_movie in similar_user_movies:
+        if similar_user_movie[1] == 1:
+            similar_user_liked_movies.append(similar_user_movie[0])
     for similar_movie in similar_user_liked_movies:
         if similar_movie not in user_movies:
             recommended_movies.append(similar_movie)
-    recommended_movies_objects = []
+    similar_users_movies_objects = []
     count = 0
     max_count = FinalVariables.get_number_of_similar_user_movies()
     for recommended_movie in recommended_movies:
@@ -204,10 +206,10 @@ def get_similar_user_movies(current_user_id, similar_user_id):
                 genres_ids.append(genre['id'])
             movie_object = MovieDetails(data['original_title'], data['id'], data['vote_average'], data['overview'],
                                         data['release_date'], data['adult'], data['poster_path'], genres_ids)
-            recommended_movies_objects.append(movie_object)
+            similar_users_movies_objects.append(movie_object)
             if count == max_count:
                 break
-    return recommended_movies_objects
+    return similar_users_movies_objects
 
 
 def get_interested_in_movies_for_user(user_id):
@@ -216,14 +218,14 @@ def get_interested_in_movies_for_user(user_id):
     ----------------------------------------------------------------------"""
     current_user_movies = database.fetch_users_watched_movies(conn, user_id)
     user_movies = []
-    for movie in current_user_movies:
-        user_movies.append(movie[0])
+    for current_user_movie in current_user_movies:
+        user_movies.append(current_user_movie[0])
     count = 0
     max_count = FinalVariables.get_number_of_interested_in_movies()
     interested_in_movies_objects = []
-    for movie in user_movies:
-        api_end_point = 'https://api.themoviedb.org/3/movie/' + str(movie) + '/similar?api_key=' + FinalVariables.get_api_key() + \
-                        '&language=en-US&page=1'
+    for user_movie in user_movies:
+        api_end_point = 'https://api.themoviedb.org/3/movie/' + str(user_movie) + '/similar?api_key=' + \
+                        FinalVariables.get_api_key() + '&language=en-US&page=1'
         headers = {}
         response = requests.get(api_end_point, headers=headers)
         if response.status_code == 200:
@@ -246,8 +248,8 @@ def get_trending_movies(user_id):
     ----------------------------------------------------------------------"""
     current_user_movies = database.fetch_users_watched_movies(conn, user_id)
     user_movies = []
-    for movie in current_user_movies:
-        user_movies.append(movie[0])
+    for current_user_movie in current_user_movies:
+        user_movies.append(current_user_movie[0])
     api_end_point = 'https://api.themoviedb.org/3/trending/movie/day?api_key=' + FinalVariables.get_api_key() + '&page=1'
     headers = {}
     response = requests.get(api_end_point, headers=headers)
@@ -273,7 +275,22 @@ def get_recommended_movies_for_user(user_id):
     """----------------------------------------------------------------------
     Function to get all recommended movies for the user
     ----------------------------------------------------------------------"""
-    #to be completed
+    similar_user_movies = get_similar_user_movies(user_id)
+    print(len(similar_user_movies))
+    trending_movies = get_trending_movies(user_id)
+    print(len(trending_movies))
+    interested_in_movies = get_interested_in_movies_for_user(user_id)
+    print(len(interested_in_movies))
+    recommended_movies = similar_user_movies
+    for trending_movie in trending_movies:
+        if trending_movie not in recommended_movies:
+            recommended_movies.append(trending_movie)
+    for interested_in_movie in interested_in_movies:
+        if interested_in_movie not in recommended_movies:
+            recommended_movies.append(interested_in_movie)
+    return recommended_movies
+
+
 
 #similar_users = find_similar_users('1234')
 #print(similar_users)
@@ -281,7 +298,9 @@ def get_recommended_movies_for_user(user_id):
 # print(movies[0].id, ' ', movies[1].id)
 
 
-movies = get_interested_in_movies_for_user('1234')
-print(len(movies))
-# fetch_movies_for_user('1236')
+#movies = get_interested_in_movies_for_user('1234')
+#print(len(movies))
+movie_name=fetch_movies_for_user('1243')
+#for movie in movie_name:
+ #   print(movie.id, ' ', movie.original_title, '',movie.genre_ids, '',movie.poster_path)
 # get_search_results('1238', 'Samba')

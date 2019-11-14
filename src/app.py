@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 import database as dp
+import Backend as be
 from datetime import datetime
 import secrets
 
@@ -9,9 +10,11 @@ app.config["SECRET_KEY"] = secrets.token_urlsafe(16)
 
 database = dp.Database()
 conn = database.createConnection()
-database.createTables(conn)
+#database.createTables(conn)
 genre=database.readGenre(conn)
 genre_ID=database.readGenreID(conn)
+
+
 
 def calculateAge(birthDate):
     today = datetime.today()
@@ -42,7 +45,7 @@ def register():
             session["USERNAME"] = username
             session["USER_ID"] = database.readUser(conn, username)
             #return render_template('home-page.html', username = username)
-            return render_template('home-page.html')
+            return render_template('movie-page.html')
         
         else:
             return render_template('login-page.html')
@@ -68,7 +71,7 @@ def welcome():
     database = dp.Database()
 
     con = database.createConnection()
-    database.createTables(con)
+    #database.createTables(con)
     database.inputUser(con, user, password, adult)
     username = database.readUser(con, user)
     session["USERNAME"] = user
@@ -96,7 +99,24 @@ def genre_section():
         database.input_preferences(conn = con_genre, username = session.get("USER_ID")[-1], genre = test_arr[i], percent = percent[i])
         i=i+1
     #print(user_set)
-    return render_template('home-page.html')
+    movie_details=be.fetch_movies_for_user(session.get("USER_ID")[-1])
+    movie_id=[]
+    movie_title=[]
+    movie_poster=[]
+    movie_genres=[]
+    genre_name=[]
+    for i in movie_details:
+        movie_id.append(i.id)
+        movie_title.append(i.original_title)
+        movie_poster.append(i.poster_path)
+        movie_genres.append(i.genre_ids)
+    length=len(movie_genres)
+    for k in range(length):
+        genres=[]
+        for j in movie_genres[k]:
+            genres.append(database.readID_fromGenres(conn,j))
+        genre_name.append(genres)
+    return render_template('movie-page.html',movie_id=movie_id,movie_title=movie_title,movie_poster=movie_poster,movie_genres=genre_name)
 
     
 @app.route('/check_user', methods=['POST'])
@@ -107,6 +127,6 @@ def print_user_details():
             password = request.form['password']
         return render_template('user_home.html', username=username, password=password)
 
-
+       
 if __name__ == '__main__':
     app.run()

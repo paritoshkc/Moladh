@@ -50,7 +50,7 @@ class Database():
 
     def readID_fromGenres(self,conn,genre):
         cur=conn.cursor()
-        cur.execute("Select Genre_Name from Genres where ID=?",genre)
+        cur.execute("Select Genre_Name from Genres where ID= " + str(genre))
         genre_name=cur.fetchall()
         rows=[i[0] for i in genre_name]
         conn.commit()
@@ -73,7 +73,7 @@ class Database():
 
 
     def createConnection(self):
-        conn = sqlite3.connect("Moladh.db", check_same_thread = False)
+        conn = sqlite3.connect("src/Moladh.db", check_same_thread = False)
         return conn
 
 

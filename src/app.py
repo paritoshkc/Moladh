@@ -127,6 +127,6 @@ def print_user_details():
             password = request.form['password']
         return render_template('user_home.html', username=username, password=password)
 
-       
+
 if __name__ == '__main__':
     app.run()

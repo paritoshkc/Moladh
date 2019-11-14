@@ -294,13 +294,17 @@ def get_recommended_movies_for_user(user_id):
 
 #similar_users = find_similar_users('1234')
 #print(similar_users)
-# movies = get_similar_user_movies(similar_users[0][0], similar_users[1][0])
-# print(movies[0].id, ' ', movies[1].id)
 
 
+movies = get_recommended_movies_for_user('1234')
+for movie in movies:
+    print(movie.id, ' ', movie.original_title)
+"""
+user_movies = fetch_movies_for_user('1234')
+for movie in user_movies:
+    print(movie.id, ' ', movie.original_title)
+"""
 #movies = get_interested_in_movies_for_user('1234')
 #print(len(movies))
-movie_name=fetch_movies_for_user('1243')
-#for movie in movie_name:
- #   print(movie.id, ' ', movie.original_title, '',movie.genre_ids, '',movie.poster_path)
+# fetch_movies_for_user('1236')
 # get_search_results('1238', 'Samba')

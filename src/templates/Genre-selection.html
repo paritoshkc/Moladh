@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Genre</title>
+     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+
+jQuery.fn.extend({
+    listrap: function () {
+        var listrap = this;
+        listrap.getSelection = function () {
+            var selection = new Array();
+            listrap.children("li.active").each(function (ix, el) {
+                selection.push($(el)[0]);
+            });
+            return selection;
+        }
+        var toggle = "li .listrap-toggle ";
+        var selectionChanged = function() {
+            $(this).parent().parent().toggleClass("active");
+            listrap.trigger("selection-changed", [listrap.getSelection()]);
+        }
+        $(listrap).find(toggle + "img").on("click", selectionChanged);
+        $(listrap).find(toggle + "span").on("click", selectionChanged);
+        return listrap;
+    }
+});
+$(document).ready(function () {
+    $(".listrap").listrap().on("selection-changed", function (event, selection) {
+        console.log(selection);
+    });
+});
+    </script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+<style>
+strong {
+    color: azure;
+}
+     .wrapper {
+        text-align: center;
+    }
+    .wrapper ul {
+        display: inline-block;
+        margin: 0;
+        padding: 0;
+        /* For IE, the outcast */
+        zoom:1;
+
+    }
+    .wrapper li {
+        float: left;
+        padding: 2px 5px;
+        border: 1px solid black;
+    }html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+}
+     .h1{
+         color: floralwhite;
+     }
+
+.glow-on-hover {
+    width: 220px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: #111;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    border-radius: 10px;
+}
+
+.glow-on-hover:before {
+    content: '';
+    background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+    position: absolute;
+    top: -2px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    border-radius: 10px;
+}
+
+.glow-on-hover:active {
+    color: #000
+}
+
+.glow-on-hover:active:after {
+    background: transparent;
+}
+
+.glow-on-hover:hover:before {
+    opacity: 1;
+}
+
+.glow-on-hover:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #111;
+    left: 0;
+    top: 0;
+    border-radius: 10px;
+}
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
+.listrap {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            cursor: default;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .listrap li {
+            margin: 0;
+            padding: 10px;
+        }
+
+        .listrap li.active, .listrap li:hover {
+            background-color: tomato;
+        }
+
+        .listrap strong {
+            margin-left: 10px;
+        }
+
+        .listrap .listrap-toggle {
+            display: inline-block;
+            width: 45px;
+            height: 45px;
+        }
+
+        .listrap .listrap-toggle span {
+            background-color: #428bca;
+            opacity: 0.8;
+            z-index: 100;
+            width: 45px;
+            height: 45px;
+            display: none;
+            position: absolute;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 45px;
+            vertical-align: middle;
+            color: #ffffff;
+        }
+
+        .listrap .listrap-toggle span:before {
+            font-family: 'Glyphicons Halflings';
+            content: "\e013";
+        }
+
+        .listrap li.active .listrap-toggle span {
+            display: block;
+        }
+
+</style>
+<h1 align="center" style="color:floralwhite;" >SELECT YOUR GENRES</h1>
+<br/>
+<form align="center" action="/genre_page" method="post">
+<div class="container" >
+
+    <div class="wrapper">
+	<ul class="row" align="center">
+        <div class="column">
+		<ul class="listrap">
+            <li>
+                <div >
+                    <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=1" class="img-circle" />
+
+                </div>
+                <strong>Action</strong>
+            </li>
+            <li >
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=2" class="img-circle" />
+                </div>
+                <strong>Adventure</strong>
+            </li>
+            <li >
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=3" class="img-circle" />
+                </div>
+                <strong>Animation</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=4" class="img-circle" />
+                </div>
+                <strong>Comedy</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=5" class="img-circle" />
+                </div>
+                <strong>Thriller</strong>
+            </li>
+        </ul>
+        </div>
+        <div class="column">
+		<ul class="listrap">
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/abstract/?v=1" class="img-circle" />
+                </div>
+                <strong>Crime</strong>
+            </li>
+            <li >
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/abstract/?v=2" class="img-circle" />
+                </div>
+                <strong>Documentary</strong>
+            </li>
+            <li >
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/abstract/?v=3" class="img-circle" />
+                </div>
+                <strong>Drama</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/abstract/?v=4" class="img-circle" />
+                </div>
+                <strong>Family</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/abstract/?v=5" class="img-circle" />
+                </div>
+                <strong>War</strong>
+            </li>
+        </ul>
+        </div>
+        <div class="column">
+		<ul class="listrap">
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/nature/?v=1" class="img-circle" />
+                </div>
+                <strong>Fantasy</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/nature/?v=2" class="img-circle" />
+                </div>
+                <strong>History</strong>
+            </li>
+            <li >
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/nature/?v=3" class="img-circle" />
+                </div>
+                <strong>Horror</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/nature/?v=4" class="img-circle" />
+                </div>
+                <strong>Music</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/nature/?v=5" class="img-circle" />
+                </div>
+                <strong>Western</strong>
+            </li>
+        </ul>
+        </div>
+        <div class="column">
+		<ul class="listrap">
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=1" class="img-circle" />
+                </div>
+                <strong>Mystery</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=2" class="img-circle" />
+                </div>
+                <strong>Romance</strong>
+            </li>
+            <li >
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=3" class="img-circle" />
+                </div>
+                <strong>Science Fiction</strong>
+            </li>
+            <li>
+                <div   >
+                     <input type="checkbox" name="test">
+                    <img src="http://lorempixel.com/45/45/people/?v=4" class="img-circle" />
+                </div>
+                <strong>TV Movie</strong>
+            </li>
+        </ul>
+        </div>
+
+        </ul>
+        </div>
+
+	</div>
+<button class="glow-on-hover" type="submit">Submit</button>
+</form>
+</div>
+
+</body>
+</html>

@@ -109,7 +109,6 @@ class Database():
         rows = cur.fetchall()
         return rows
 
-<<<<<<< HEAD
 
     def fetch_users_disliked_movies_passed_ndays(self, conn, user_id, days):
         cur = conn.cursor()
@@ -120,8 +119,6 @@ class Database():
         return rows
 
 
-=======
->>>>>>> ae319f0366082d9da951c49721ea50568b7c429a
     def fetch_all_users_preferences(self, conn):
         cur = conn.cursor()
         cur.execute("Select ID, Genre_Id, Percent FROM User_Preferences")
@@ -186,8 +183,8 @@ class Database():
         """
         conn.execute(
             '''
-                ALTER TABLE Movies_Watched
-                ADD Date_Watched DATE;
+                ALTER TABLE User
+                ADD COLUMN Nationality TEXT
             '''
         )
         """

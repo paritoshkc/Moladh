@@ -3,20 +3,33 @@ from datetime import date
 import sys
 import os
 
+
 class Database():
     def readUser(self, conn, username):
-        cur=conn.cursor()
-        cur.execute("Select ID from User where Username=?",(username,))
-        id=cur.fetchall()
-        rows=[i[0] for i in id]
+        cur = conn.cursor()
+        cur.execute("Select ID from User where Username=?", (username,))
+        id = cur.fetchall()
+        rows = [i[0] for i in id]
         return rows
+
+
+    def checkUser(self, conn, username, password):
+        cur = conn.cursor()
+        cur.execute("Select Password from User where Username=?", (username,))
+        rows = cur.fetchall()
+        password_db = [i[0] for i in rows]
+        if password_db[0] == password:
+            return True
+        else:
+            return False
 
     def inputUser(self, conn, username, password, adult):
         conn.execute("INSERT INTO User (Username, Password, Adult) VALUES (?, ?, ?);", (username, password, adult))
         conn.commit()
 
     def input_preferences(self, conn, username, genre, percent):
-        conn.execute("INSERT INTO User_Preferences (ID, Genre_ID,percent) VALUES (?, ?, ?);", (username,genre,percent))
+        conn.execute("INSERT INTO User_Preferences (ID, Genre_ID,percent) VALUES (?, ?, ?);",
+                     (username, genre, percent))
         conn.commit()
 
 
@@ -36,7 +49,6 @@ class Database():
             cur.execute(query)
             conn.commit()
 
-
     def input_genre(self, conn, ID, Genre_Name):
         cur = conn.cursor()
         query = 'Select count() FROM Genres WHERE ID = ' + str(ID)
@@ -45,30 +57,30 @@ class Database():
         if rows[0][0] <= 0:
             conn.execute("INSERT INTO Genres (ID, Genre_Name) VALUES (?, ?);", (ID, Genre_Name))
             conn.commit()
-    
+
     def readGenre(self, conn):
-        cur=conn.cursor()
+        cur = conn.cursor()
         cur.execute("Select [Genre_Name] from Genres")
-        genre_name=cur.fetchall()
-        rows=[i[0] for i in genre_name]
+        genre_name = cur.fetchall()
+        rows = [i[0] for i in genre_name]
         conn.commit()
         return rows
 
     def readGenreID(self, conn):
-        cur=conn.cursor()
+        cur = conn.cursor()
         cur.execute("Select ID from Genres")
-        genre_ID=cur.fetchall()
-        rows=[i[0] for i in genre_ID]
+        genre_ID = cur.fetchall()
+        rows = [i[0] for i in genre_ID]
         conn.commit()
         return rows
 
-    def readID_fromGenres(self,conn,genre):
-        cur=conn.cursor()
-        cur.execute("Select Genre_Name from Genres where ID=?",genre)
-        genre_name=cur.fetchall()
-        rows=[i[0] for i in genre_name]
+    def readID_fromGenres(self, conn, genre):
+        cur = conn.cursor()
+        cur.execute("Select Genre_Name from Genres where ID= " + str(genre))
+        genre_name = cur.fetchall()
+        rows = [i[0] for i in genre_name]
         conn.commit()
-        return rows 
+        return rows
 
     def upsert_user_preference(self, conn, user_id, genre_id, percentage):
         cur = conn.cursor()
@@ -76,7 +88,8 @@ class Database():
         cur.execute(query)
         rows = cur.fetchall()
         if rows[0][0] <= 0:
-            conn.execute("INSERT INTO User_Preferences (ID, Genre_Id, Percent) VALUES (?, ?, ?);", (user_id, genre_id, percentage))
+            conn.execute("INSERT INTO User_Preferences (ID, Genre_Id, Percent) VALUES (?, ?, ?);",
+                         (user_id, genre_id, percentage))
             conn.commit()
         else:
             query = 'UPDATE User_Preferences SET Percent = ' + str(percentage) + \
@@ -85,11 +98,9 @@ class Database():
             cur.execute(query)
             conn.commit()
 
-
     def createConnection(self):
-        conn = sqlite3.connect("Moladh.db", check_same_thread = False)
+        conn = sqlite3.connect("Moladh.db", check_same_thread=False)
         return conn
-
 
     def fetch_users_preferences(self, conn, user_id):
         cur = conn.cursor()
@@ -98,6 +109,7 @@ class Database():
         rows = cur.fetchall()
         return rows
 
+<<<<<<< HEAD
 
     def fetch_users_disliked_movies_passed_ndays(self, conn, user_id, days):
         cur = conn.cursor()
@@ -108,12 +120,13 @@ class Database():
         return rows
 
 
+=======
+>>>>>>> ae319f0366082d9da951c49721ea50568b7c429a
     def fetch_all_users_preferences(self, conn):
         cur = conn.cursor()
         cur.execute("Select ID, Genre_Id, Percent FROM User_Preferences")
         rows = cur.fetchall()
         return rows
-
 
     def fetch_users_watched_movies(self, conn, user_id):
         cur = conn.cursor()
@@ -121,7 +134,6 @@ class Database():
         cur.execute(query)
         rows = cur.fetchall()
         return rows
-
 
     def createTables(self, conn):
         conn.execute(

@@ -5,7 +5,7 @@ def get_api_key():
 
 
 def get_number_of_movies_to_be_displayed():
-    number = 15
+    number = 16
     return number
 
 

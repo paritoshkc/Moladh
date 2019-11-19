@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-import database as dp
+from src import database
 from datetime import datetime
 import secrets
 
@@ -7,11 +7,12 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = secrets.token_urlsafe(16)
 
-database = dp.Database()
+database = database.Database()
 conn = database.createConnection()
 database.createTables(conn)
-genre=database.readGenre(conn)
-genre_ID=database.readGenreID(conn)
+genre = database.readGenre(conn)
+genre_ID = database.readGenreID(conn)
+
 
 def calculateAge(birthDate):
     today = datetime.today()
@@ -65,7 +66,7 @@ def welcome():
         adult = True
 
     # connection
-    database = dp.Database()
+    database = database.Database()
 
     con = database.createConnection()
     database.createTables(con)
@@ -74,7 +75,7 @@ def welcome():
     session["USERNAME"] = user
     #session["USER_ID"] = dp.Database.readUser(conn = conn, username = session.get("USERNAME"))
     session["USER_ID"] = username
-    return render_template('welcome-page.html', username=user,genrename=genre,genreid=genre_ID)
+    return render_template('welcome-page.html', username=user, genrename=genre, genreid=genre_ID)
 
 @app.route('/genre_page',methods=['POST'])
 def genre_section():

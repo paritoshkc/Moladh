@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+<<<<<<< HEAD
+from src import database
+=======
 from src import database as dp
 from src import Backend as be
+>>>>>>> ae319f0366082d9da951c49721ea50568b7c429a
 from datetime import datetime
 import secrets
 
@@ -8,9 +12,13 @@ app = Flask(__name__)
 
 app.config["SECRET_KEY"] = secrets.token_urlsafe(16)
 
-database = dp.Database()
+database = database.Database()
 conn = database.createConnection()
+<<<<<<< HEAD
+database.createTables(conn)
+=======
 # database.createTables(conn)
+>>>>>>> ae319f0366082d9da951c49721ea50568b7c429a
 genre = database.readGenre(conn)
 genre_ID = database.readGenreID(conn)
 
@@ -66,7 +74,7 @@ def welcome():
         adult = True
 
     # connection
-    database = dp.Database()
+    database = database.Database()
 
     con = database.createConnection()
     # database.createTables(con)
@@ -74,7 +82,11 @@ def welcome():
     username = database.readUser(con, user)
     session["USERNAME"] = user
     session["USER_ID"] = username
+<<<<<<< HEAD
+    return render_template('welcome-page.html', username=user, genrename=genre, genreid=genre_ID)
+=======
     return render_template('Genre-selection.html')
+>>>>>>> ae319f0366082d9da951c49721ea50568b7c429a
 
 
 @app.route('/genre_page', methods=['POST'])

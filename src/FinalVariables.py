@@ -27,3 +27,13 @@ def get_number_of_trending_movies():
 def get_number_of_interested_in_movies():
     number_of_movies = 5
     return number_of_movies
+
+
+def get_number_of_continue_watching_movies():
+    number_of_movies = 10
+    return number_of_movies
+
+
+def get_number_of_passed_days_for_watched_movies():
+    number_of_days = 1
+    return number_of_days

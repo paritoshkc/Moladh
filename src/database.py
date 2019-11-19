@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import date
 import sys
 import os
 
@@ -31,9 +32,22 @@ class Database():
                      (username, genre, percent))
         conn.commit()
 
-    def input_movie_watched(self, conn, user_id, movie_id, like):
-        conn.execute("INSERT INTO Movies_Watched (ID, MovieID, Like) VALUES (?, ?, ?);", (user_id, movie_id, like))
-        conn.commit()
+
+    def upsert_movie_watched(self, conn, user_id, movie_id, like):
+        today = date.today()
+        cur = conn.cursor()
+        query = 'Select count() FROM Movies_Watched WHERE ID = ' + str(user_id) + ' AND MovieID = ' + str(movie_id)
+        cur.execute(query)
+        rows = cur.fetchall()
+        if rows[0][0] <= 0:
+            conn.execute("INSERT INTO Movies_Watched (ID, MovieID, Like, Date_Watched) VALUES (?, ?, ?, ?);", (user_id, movie_id, like, today))
+            conn.commit()
+        else:
+            query = 'UPDATE Movies_Watched SET Like = ' + str(like) + \
+                    ' WHERE ID = ' + str(user_id) + ' AND MovieID = ' + str(movie_id)
+            cur = conn.cursor()
+            cur.execute(query)
+            conn.commit()
 
     def input_genre(self, conn, ID, Genre_Name):
         cur = conn.cursor()
@@ -95,6 +109,19 @@ class Database():
         rows = cur.fetchall()
         return rows
 
+<<<<<<< HEAD
+
+    def fetch_users_disliked_movies_passed_ndays(self, conn, user_id, days):
+        cur = conn.cursor()
+        query = 'Select ID, MovieID FROM Movies_Watched WHERE ID = ' + str(user_id) + ' AND Like = 0' + \
+                ' AND Date_Watched >= (SELECT date(\'now\', \'' + str(-1 * days) + ' day\'))'
+        cur.execute(query)
+        rows = cur.fetchall()
+        return rows
+
+
+=======
+>>>>>>> ae319f0366082d9da951c49721ea50568b7c429a
     def fetch_all_users_preferences(self, conn):
         cur = conn.cursor()
         cur.execute("Select ID, Genre_Id, Percent FROM User_Preferences")
@@ -155,6 +182,15 @@ class Database():
                 );
             '''
         )
+
+        """
+        conn.execute(
+            '''
+                ALTER TABLE Movies_Watched
+                ADD Date_Watched DATE;
+            '''
+        )
+        """
 
         conn.commit()
 

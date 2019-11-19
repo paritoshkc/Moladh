@@ -30,7 +30,7 @@ def user_watches_movie(user_id, movie_details, like):
     Function to update user_preference and users_movies_watched once the
     user has watched the movie
     ----------------------------------------------------------------------"""
-    database.input_movie_watched(conn, user_id, movie_details['id'], like)
+    database.upsert_movie_watched(conn, user_id, movie_details['id'], like)
     update_user_preferences(user_id, movie_details)
 
 
@@ -175,7 +175,7 @@ def get_similar_user_movies(user_id):
     Function to fetch movies watched by the similar user
     ----------------------------------------------------------------------"""
     similar_users = find_similar_users(user_id)
-    most_similar_user_id = similar_users[1][0]
+    most_similar_user_id = similar_users[1][0]  # second element in the list as the first one is the user himself
     current_user_movies = database.fetch_users_watched_movies(conn, user_id)
     user_movies = []
     for current_user_movie in current_user_movies:
@@ -233,9 +233,7 @@ def get_interested_in_movies_for_user(user_id):
             results = data['results']
             if results[0]['id'] not in user_movies:
                 count = count + 1
-                movie_object = MovieDetails(results[0]['original_title'], results[0]['id'], results[0]['vote_average'],
-                                            results[0]['overview'], results[0]['release_date'], results[0]['adult'],
-                                            results[0]['poster_path'], results[0]['genre_ids'])
+                movie_object = deserialize_movie_date(results[0])
                 interested_in_movies_objects.append(movie_object)
             if count == max_count:
                 break
@@ -250,7 +248,8 @@ def get_trending_movies(user_id):
     user_movies = []
     for current_user_movie in current_user_movies:
         user_movies.append(current_user_movie[0])
-    api_end_point = 'https://api.themoviedb.org/3/trending/movie/day?api_key=' + FinalVariables.get_api_key() + '&page=1'
+    api_end_point = 'https://api.themoviedb.org/3/trending/movie/day?api_key=' + FinalVariables.get_api_key() + \
+                    '&page=1&language=en-US'
     headers = {}
     response = requests.get(api_end_point, headers=headers)
     trending_movies_objects = []
@@ -262,13 +261,48 @@ def get_trending_movies(user_id):
         for result in results:
             if result['id'] not in user_movies:
                 count = count + 1
-                movie_object = MovieDetails(result['original_title'], result['id'], result['vote_average'],
-                                            result['overview'], result['release_date'], result['adult'],
-                                            result['poster_path'], result['genre_ids'])
+                movie_object = deserialize_movie_date(result)
                 trending_movies_objects.append(movie_object)
             if count == max_count:
                 break
     return trending_movies_objects
+
+
+def get_continue_watching_movies_for_user(user_id):
+    """----------------------------------------------------------------------
+    Function to get all movies that the user left unwatched halfway
+    (continue watching movies)
+    ----------------------------------------------------------------------"""
+    continue_watching_movies = database.fetch_users_disliked_movies_passed_ndays(conn, user_id, 1)
+    movie_ids = []
+    for recent_movie in continue_watching_movies:
+        movie_ids.append(recent_movie[1])
+    continue_watching_movies_objects = []
+    for movie_id in movie_ids:
+        api_end_point = 'https://api.themoviedb.org/3/movie/' + str(movie_id) + '?api_key=' + \
+                        FinalVariables.get_api_key() + '&language=en-US'
+        headers = {}
+        response = requests.get(api_end_point, headers=headers)
+        if response.status_code == 200:
+            data = json.loads(response.content)
+            genres = data['genres']
+            genres_ids = []
+            for genre in genres:
+                genres_ids.append(genre['id'])
+            movie_object = MovieDetails(data['original_title'], data['id'], data['vote_average'], data['overview'],
+                                        data['release_date'], data['adult'], data['poster_path'], genres_ids)
+            continue_watching_movies_objects.append(movie_object)
+    return continue_watching_movies_objects
+
+
+def deserialize_movie_date(movie_date):
+    """----------------------------------------------------------------------
+    Function to deserialize json data into MovieDetails class object
+    ----------------------------------------------------------------------"""
+    movie_object = MovieDetails(movie_date['original_title'], movie_date['id'], movie_date['vote_average'],
+                                movie_date['overview'], movie_date['release_date'], movie_date['adult'],
+                                movie_date['poster_path'], movie_date['genre_ids'])
+    return movie_object
 
 
 def get_recommended_movies_for_user(user_id):
@@ -276,12 +310,15 @@ def get_recommended_movies_for_user(user_id):
     Function to get all recommended movies for the user
     ----------------------------------------------------------------------"""
     similar_user_movies = get_similar_user_movies(user_id)
-    print(len(similar_user_movies))
     trending_movies = get_trending_movies(user_id)
-    print(len(trending_movies))
     interested_in_movies = get_interested_in_movies_for_user(user_id)
-    print(len(interested_in_movies))
     recommended_movies = similar_user_movies
+    for similar in similar_user_movies:
+        print(similar.id, ' ', similar.original_title, ' ', similar.genre_ids)
+    for similar in trending_movies:
+        print(similar.id, ' ', similar.original_title, ' ', similar.genre_ids)
+    for similar in interested_in_movies:
+        print(similar.id, ' ', similar.original_title, ' ', similar.genre_ids)
     for trending_movie in trending_movies:
         if trending_movie not in recommended_movies:
             recommended_movies.append(trending_movie)
@@ -291,20 +328,3 @@ def get_recommended_movies_for_user(user_id):
     return recommended_movies
 
 
-
-#similar_users = find_similar_users('1234')
-#print(similar_users)
-
-
-movies = get_recommended_movies_for_user('1234')
-for movie in movies:
-    print(movie.id, ' ', movie.original_title)
-"""
-user_movies = fetch_movies_for_user('1234')
-for movie in user_movies:
-    print(movie.id, ' ', movie.original_title)
-"""
-#movies = get_interested_in_movies_for_user('1234')
-#print(len(movies))
-# fetch_movies_for_user('1236')
-# get_search_results('1238', 'Samba')

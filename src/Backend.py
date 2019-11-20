@@ -289,7 +289,8 @@ def get_recommended_movies_for_user(user_id):
     for interested_in_movie in interested_in_movies:
         if interested_in_movie not in recommended_movies:
             recommended_movies.append(interested_in_movie)
-    return recommended_movies
+    return  recommended_movies
+
 
 
 def get_continue_watching_movies_for_user(user_id):
@@ -323,5 +324,6 @@ def get_continue_watching_movies_for_user(user_id):
             if count <= max_limit:
                 break
     return continue_watching_movies_objects
+
 
 

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from src import database
-from src import Backend as be
+import database
+import Backend as be
 from datetime import datetime
 import secrets
 
@@ -54,9 +54,9 @@ def register():
 def welcome():
     req = request.form
 
-    user = req.get('username')
-    password = req.get('password')
-    gender = req.get('gender')
+    user = req.get('reg_username')
+    password = req.get('reg_password')
+    gender = req.get('reg_gender')
     # nationality = request.form['nationality']
     # email = request.form['email']
     dob = req.get('dob')
@@ -74,7 +74,7 @@ def welcome():
     username = database.readUser(con, user)
     session["USERNAME"] = user
     session["USER_ID"] = username
-    return render_template('Genre-selection.html')
+    return render_template('Genre-selection.html' ,genrename=genre, genreid=genre_ID)
 
 
 @app.route('/genre_page', methods=['POST'])

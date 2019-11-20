@@ -99,7 +99,7 @@ class Database():
             conn.commit()
 
     def createConnection(self):
-        conn = sqlite3.connect("Moladh.db", check_same_thread=False)
+        conn = sqlite3.connect("src/Moladh.db", check_same_thread=False)
         return conn
 
     def fetch_users_preferences(self, conn, user_id):

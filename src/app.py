@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from src import database
-from src import Backend as be
+import database
+import Backend as be
 from datetime import datetime
 import secrets
+from operator import itemgetter
 
 app = Flask(__name__)
 
@@ -19,6 +20,26 @@ def calculateAge(birthDate):
     today = datetime.today()
     age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))
     return age
+
+def fetch_movies():
+    movie_details = be.fetch_movies_for_user(session.get("USER_ID")[-1])
+    movie_id = []
+    movie_title = []
+    movie_poster = []
+    movie_genres = []
+    genre_name = []
+    for i in movie_details:
+        movie_id.append(i.id)
+        movie_title.append(i.original_title)
+        movie_poster.append(i.poster_path)
+        movie_genres.append(i.genre_ids)
+    length = len(movie_genres)
+    for k in range(length):
+        genres = []
+        for j in movie_genres[k]:
+            genres.append(database.readID_fromGenres(conn, j))
+        genre_name.append(genres)
+    return movie_id,movie_title,movie_poster,movie_genres,genre_name
 
 
 @app.route('/')
@@ -44,7 +65,9 @@ def register():
             session["USERNAME"] = username
             session["USER_ID"] = database.readUser(conn, username)
             # return render_template('home-page.html', username = username)
-            return render_template('movie-page.html')
+            movie_id,movie_title,movie_poster,movie_genres,genre_name=fetch_movies()
+            return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
+                           movie_genres=genre_name)
 
         else:
             return render_template('login-page.html')
@@ -54,9 +77,9 @@ def register():
 def welcome():
     req = request.form
 
-    user = req.get('username')
-    password = req.get('password')
-    gender = req.get('gender')
+    user = req.get('reg_username')
+    password = req.get('reg_password')
+    gender = req.get('reg_gender')
     # nationality = request.form['nationality']
     # email = request.form['email']
     dob = req.get('dob')
@@ -74,7 +97,7 @@ def welcome():
     username = database.readUser(con, user)
     session["USERNAME"] = user
     session["USER_ID"] = username
-    return render_template('Genre-selection.html')
+    return render_template('Genre-selection.html' ,genrename=genre, genreid=genre_ID)
 
 
 @app.route('/genre_page', methods=['POST'])
@@ -98,25 +121,24 @@ def genre_section():
                                    percent=percent[i])
         i = i + 1
     # print(user_set)
-    movie_details = be.fetch_movies_for_user(session.get("USER_ID")[-1])
-    movie_id = []
-    movie_title = []
-    movie_poster = []
-    movie_genres = []
-    genre_name = []
-    for i in movie_details:
-        movie_id.append(i.id)
-        movie_title.append(i.original_title)
-        movie_poster.append(i.poster_path)
-        movie_genres.append(i.genre_ids)
-    length = len(movie_genres)
-    for k in range(length):
-        genres = []
-        for j in movie_genres[k]:
-            genres.append(database.readID_fromGenres(conn, j))
-        genre_name.append(genres)
+    movie_id,movie_title,movie_poster,genre_id,genre_name=fetch_movies()
     return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
                            movie_genres=genre_name)
+
+
+
+@app.route('/select-page',methods=['POST'])
+def get_search_result():
+    url = request.form['url']
+    #r = requests.get(url)
+    print(url)
+    res=be.get_search_results(session.get("USER_ID")[-1],url)
+    poster = list(map(itemgetter('poster_path'), res)) 
+    name=list(map(itemgetter('original_title'), res))
+    #movie_id,movie_title,movie_poster,movie_genres,genre_name=fetch_movies()
+    #return render_template('home-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
+    #                       movie_genres=genre_name)
+    return render_template('home-page.html',url=res,name=name[0],poster=poster[0])
 
 
 @app.route('/check_user', methods=['POST'])

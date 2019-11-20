@@ -1,7 +1,7 @@
 import requests
 import json
-from src import database
-from src import FinalVariables
+import database
+import FinalVariables
 import urllib.parse
 import operator
 
@@ -323,3 +323,5 @@ def get_continue_watching_movies_for_user(user_id):
             if count <= max_limit:
                 break
     return continue_watching_movies_objects
+
+

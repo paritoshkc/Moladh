@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-import database
-import Backend as be
+from src import database
+from src import Backend as be
 from datetime import datetime
 import secrets
 from operator import itemgetter
@@ -20,6 +20,7 @@ def calculateAge(birthDate):
     today = datetime.today()
     age = today.year - birthDate.year - ((today.month, today.day) < (birthDate.month, birthDate.day))
     return age
+
 
 def fetch_movies():
     movie_details = be.fetch_movies_for_user(session.get("USER_ID")[-1])

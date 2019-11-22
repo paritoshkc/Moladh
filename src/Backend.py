@@ -1,7 +1,7 @@
 import requests
 import json
-import database
-import FinalVariables
+from src import database
+from src import FinalVariables
 import urllib.parse
 import operator
 
@@ -71,9 +71,10 @@ def fetch_movies_for_user(user_id):
             if count == total_count:
                 break
     filtered_result_objects = []
-    for result in filtered_results:
-        movie_object = MovieDetails(result['original_title'], result['id'], result['vote_average'], result['overview'],
-                                    result['release_date'], result['adult'], result['poster_path'], result['genre_ids'])
+    for movie in filtered_results:
+        movie_object = deserialize_movie_date(movie)
+        #movie_object = MovieDetails(result['original_title'], result['id'], result['vote_average'], result['overview'],
+         #                           result['release_date'], result['adult'], result['poster_path'], result['genre_ids'])
         filtered_result_objects.append(movie_object)
     return filtered_result_objects
 
@@ -98,16 +99,29 @@ def get_search_results(user_id, query):
     """----------------------------------------------------------------------
     Function to fetch movies based on the search query of the user.
     ----------------------------------------------------------------------"""
+    current_users_watched_movies = database.fetch_users_watched_movies(conn, user_id)
+    user_movies_ids = []
+    for watched_movie in current_users_watched_movies:
+        user_movies_ids.append(watched_movie[0])
     encoded_query = urllib.parse.quote(query)
     api_end_point = 'https://api.themoviedb.org/3/search/movie?api_key=' + FinalVariables.get_api_key() + \
                     '&&language=en-US&page=1&query=' + encoded_query
     headers = {}
     response = requests.get(api_end_point, headers=headers)
+    search_result_movie_objects = []
     if response.status_code == 200:
         data = json.loads(response.content)
         results = data['results']
-        update_user_preferences(user_id, results[0])
-        return results
+        for movie in results:
+            movie_object = deserialize_movie_date(movie)
+            search_result_movie_objects.append(movie_object)
+        for movie in results:
+            if movie['id'] not in user_movies_ids:
+                update_user_preferences(user_id, movie)
+                break
+            else:
+                continue
+        return search_result_movie_objects
     else:
         return 0
 
@@ -289,8 +303,7 @@ def get_recommended_movies_for_user(user_id):
     for interested_in_movie in interested_in_movies:
         if interested_in_movie not in recommended_movies:
             recommended_movies.append(interested_in_movie)
-    return  recommended_movies
-
+    return recommended_movies
 
 
 def get_continue_watching_movies_for_user(user_id):
@@ -326,4 +339,6 @@ def get_continue_watching_movies_for_user(user_id):
     return continue_watching_movies_objects
 
 
-
+results = get_search_results('1234', 'esm')
+for result in results:
+    print(result.id, ' ', result.original_title)

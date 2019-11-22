@@ -279,17 +279,21 @@ def get_recommended_movies_for_user(user_id):
     """----------------------------------------------------------------------
     Function to get all recommended movies for the user
     ----------------------------------------------------------------------"""
+    users_movies = fetch_movies_for_user(user_id)
     similar_user_movies = get_similar_user_movies(user_id)
     trending_movies = get_trending_movies(user_id)
+    recommended_movies = []
     interested_in_movies = get_interested_in_movies_for_user(user_id)
-    recommended_movies = similar_user_movies
+    for similar_movie in similar_user_movies:
+        if similar_movie not in users_movies:
+            recommended_movies.append(similar_movie)
     for trending_movie in trending_movies:
-        if trending_movie not in recommended_movies:
+        if trending_movie not in recommended_movies and trending_movie not in users_movies:
             recommended_movies.append(trending_movie)
     for interested_in_movie in interested_in_movies:
-        if interested_in_movie not in recommended_movies:
+        if interested_in_movie not in recommended_movies and interested_in_movie not in users_movies:
             recommended_movies.append(interested_in_movie)
-    return  recommended_movies
+    return recommended_movies
 
 
 

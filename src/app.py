@@ -41,6 +41,46 @@ def fetch_movies():
         genre_name.append(genres)
     return movie_id,movie_title,movie_poster,movie_genres,genre_name
 
+def fetch_user_might_like_movies():
+    movie_details = be.get_recommended_movies_for_user(session.get("USER_ID")[-1])
+    movie_id = []
+    movie_title = []
+    movie_poster = []
+    movie_genres = []
+    genre_name = []
+    for i in movie_details:
+        movie_id.append(i.id)
+        movie_title.append(i.original_title)
+        movie_poster.append(i.poster_path)
+        movie_genres.append(i.genre_ids)
+    length = len(movie_genres)
+    for k in range(length):
+        genres = []
+        for j in movie_genres[k]:
+            genres.append(database.readID_fromGenres(conn, j))
+        genre_name.append(genres)
+    return movie_title,movie_poster
+
+def fetch_continue_watch_movies():
+    movie_details = be.get_continue_watching_movies_for_user(session.get("USER_ID")[-1])
+    movie_id = []
+    movie_title = []
+    movie_poster = []
+    movie_genres = []
+    genre_name = []
+    for i in movie_details:
+        movie_id.append(i.id)
+        movie_title.append(i.original_title)
+        movie_poster.append(i.poster_path)
+        movie_genres.append(i.genre_ids)
+    length = len(movie_genres)
+    for k in range(length):
+        genres = []
+        for j in movie_genres[k]:
+            genres.append(database.readID_fromGenres(conn, j))
+        genre_name.append(genres)
+    return movie_title,movie_poster
+
 
 @app.route('/')
 def hello():
@@ -66,8 +106,11 @@ def register():
             session["USER_ID"] = database.readUser(conn, username)
             # return render_template('home-page.html', username = username)
             movie_id,movie_title,movie_poster,movie_genres,genre_name=fetch_movies()
+            might_like_title,might_like_poster=fetch_user_might_like_movies()
+            continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
             return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
-                           movie_genres=genre_name)
+                           movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title=continue_watch_title
+                           ,continue_watch_poster=continue_watch_poster)
 
         else:
             return render_template('login-page.html')
@@ -138,7 +181,7 @@ def get_search_result():
     #movie_id,movie_title,movie_poster,movie_genres,genre_name=fetch_movies()
     #return render_template('home-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
     #                       movie_genres=genre_name)
-    return render_template('home-page.html',url=res,name=name[0],poster=poster[0])
+    return render_template('search-page.html',url=res,name=name,poster=poster)
 
 
 @app.route('/check_user', methods=['POST'])

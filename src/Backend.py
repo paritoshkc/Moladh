@@ -35,13 +35,37 @@ def deserialize_movie_date(movie_date):
     return movie_object
 
 
-def user_watches_movie(user_id, movie_details, like):
+def user_watches_movie(user_id, movie_object, user_liked, user_watched):
     """----------------------------------------------------------------------
     Function to update user_preference and users_movies_watched once the
     user has watched the movie
     ----------------------------------------------------------------------"""
-    database.upsert_movie_watched(conn, user_id, movie_details['id'], like)
-    update_user_preferences(user_id, movie_details)
+    update_users_previous_actions(user_id)
+    if user_liked and user_watched:
+        update_user_preferences(user_id, movie_object.id, True)
+        database.upsert_movie_watched(conn, user_id, movie_object.id, 1, 0, 1)
+    elif user_liked and not user_watched:
+        update_user_preferences(user_id, movie_object.genre_ids, True)
+        database.upsert_movie_watched(conn, user_id, movie_object.id, 1, 0, 0)
+    elif not user_liked:
+        database.upsert_movie_watched(conn, user_id, movie_object.id, 0, 0, 0)
+
+
+def update_users_previous_actions(user_id):
+    """----------------------------------------------------------------------
+    Function to check if user watched the movie or not, if he/she dislikes
+    the previous movie or not and accordingly update his/her preference
+    ----------------------------------------------------------------------"""
+    users_watched_movies = database.fetch_users_watched_movies(conn, user_id)
+    for watched_movie in users_watched_movies:
+        if watched_movie[1] == 0 and watched_movie[2] == 0:
+            database.upsert_movie_watched(conn, user_id, watched_movie[0], 0, 1, 0)
+            movie_details = fetch_movies_by_id(watched_movie[0])
+            genre_ids = []
+            for genre in movie_details['genres']:
+                genre_ids.append(genre['id'])
+            update_user_preferences(user_id, genre_ids, False)
+            break
 
 
 def fetch_movies_for_user(user_id):
@@ -73,8 +97,6 @@ def fetch_movies_for_user(user_id):
     filtered_result_objects = []
     for movie in filtered_results:
         movie_object = deserialize_movie_date(movie)
-        #movie_object = MovieDetails(result['original_title'], result['id'], result['vote_average'], result['overview'],
-         #                           result['release_date'], result['adult'], result['poster_path'], result['genre_ids'])
         filtered_result_objects.append(movie_object)
     return filtered_result_objects
 
@@ -90,6 +112,22 @@ def fetch_movies_by_genre(genre_id):
     if response.status_code == 200:
         data = json.loads(response.content)
         results = data['results']
+        return results
+    else:
+        return 0
+
+
+def fetch_movies_by_id(movie_id):
+    """----------------------------------------------------------------------
+    Function to fetch movie details by id.
+    ----------------------------------------------------------------------"""
+    api_end_point = 'https://api.themoviedb.org/3/movie/' + str(movie_id) + '?api_key=' + \
+                    FinalVariables.get_api_key() + '&language=en-US'
+    headers = {}
+    response = requests.get(api_end_point, headers=headers)
+    if response.status_code == 200:
+        data = json.loads(response.content)
+        results = data
         return results
     else:
         return 0
@@ -115,9 +153,9 @@ def get_search_results(user_id, query):
         for movie in results:
             movie_object = deserialize_movie_date(movie)
             search_result_movie_objects.append(movie_object)
-        for movie in results:
-            if movie['id'] not in user_movies_ids:
-                update_user_preferences(user_id, movie)
+        for movie in search_result_movie_objects:
+            if movie.id not in user_movies_ids:
+                update_user_preferences(user_id, movie.genre_ids, True)
                 break
             else:
                 continue
@@ -126,13 +164,12 @@ def get_search_results(user_id, query):
         return 0
 
 
-def update_user_preferences(user_id, movie_details):
+def update_user_preferences(user_id, movie_genre_ids, user_liked_movie):
     """----------------------------------------------------------------------
     Function to update genre weights of the user as per the genres of the
     movie
     ----------------------------------------------------------------------"""
     percentage_decrease = FinalVariables.get_percentage_decrease_in_genre()
-    movie_genre_ids = movie_details['genre_ids']
     user_preferences = database.fetch_users_preferences(conn, user_id)
     genre_percentage = {}
     updated_genre_percentage = {}
@@ -141,22 +178,42 @@ def update_user_preferences(user_id, movie_details):
     for genre_id in movie_genre_ids:
         if genre_id not in genre_percentage.keys():
             genre_percentage[genre_id] = 0
-    total_percentage_decreased = 0
-    for genre in genre_percentage.keys():
-        if genre not in movie_genre_ids:
-            if genre_percentage[genre] >= percentage_decrease:
-                updated_genre_percentage[genre] = genre_percentage[genre] - percentage_decrease
-                total_percentage_decreased = total_percentage_decreased + percentage_decrease
-            else:
-                current_percentage_decrease = genre_percentage[genre]
-                updated_genre_percentage[genre] = 0
-                total_percentage_decreased = total_percentage_decreased + current_percentage_decrease
-    for genre in genre_percentage.keys():
-        if genre in movie_genre_ids:
-            updated_genre_percentage[genre] = round(genre_percentage[genre] +
-                                                    total_percentage_decreased/len(movie_genre_ids), 2)
-    for genre in updated_genre_percentage:
-        database.upsert_user_preference(conn, user_id, genre, updated_genre_percentage[genre])
+    if user_liked_movie:
+        total_percentage_decreased = 0
+        for genre in genre_percentage.keys():
+            if genre not in movie_genre_ids:
+                if genre_percentage[genre] >= percentage_decrease:
+                    updated_genre_percentage[genre] = genre_percentage[genre] - percentage_decrease
+                    total_percentage_decreased = total_percentage_decreased + percentage_decrease
+                else:
+                    current_percentage_decrease = genre_percentage[genre]
+                    updated_genre_percentage[genre] = 0
+                    total_percentage_decreased = total_percentage_decreased + current_percentage_decrease
+        for genre in genre_percentage.keys():
+            if genre in movie_genre_ids:
+                updated_genre_percentage[genre] = round(genre_percentage[genre] +
+                                                        total_percentage_decreased/len(movie_genre_ids), 2)
+    else:
+        length_of_genres = len(genre_percentage) - len(movie_genre_ids)
+        total_percentage_decreased = 0
+        for genre in genre_percentage.keys():
+            if genre in movie_genre_ids:
+                if genre_percentage[genre] >= percentage_decrease:
+                    updated_genre_percentage[genre] = genre_percentage[genre] - percentage_decrease
+                    total_percentage_decreased = total_percentage_decreased + percentage_decrease
+                else:
+                    current_percentage_decrease = genre_percentage[genre]
+                    updated_genre_percentage[genre] = 0
+                    total_percentage_decreased = total_percentage_decreased + current_percentage_decrease
+        for genre in genre_percentage.keys():
+            if genre not in movie_genre_ids:
+                updated_genre_percentage[genre] = round(genre_percentage[genre] +
+                                                        total_percentage_decreased/length_of_genres, 2)
+    #for genre in updated_genre_percentage:
+     #   database.upsert_user_preference(conn, user_id, genre, updated_genre_percentage[genre])
+    print(user_liked_movie)
+    print(genre_percentage)
+    print(updated_genre_percentage)
 
 
 def find_similar_users(user_id):
@@ -293,15 +350,28 @@ def get_recommended_movies_for_user(user_id):
     """----------------------------------------------------------------------
     Function to get all recommended movies for the user
     ----------------------------------------------------------------------"""
+    users_movies = fetch_movies_for_user(user_id)
+    for user_movie in users_movies:
+        print('1', user_movie.genre_ids, ' ', user_movie.id, ' ',
+              user_movie.original_title)
     similar_user_movies = get_similar_user_movies(user_id)
     trending_movies = get_trending_movies(user_id)
     interested_in_movies = get_interested_in_movies_for_user(user_id)
-    recommended_movies = similar_user_movies
+    recommended_movies = []
+    for similar_movie in similar_user_movies:
+        if similar_movie not in users_movies:
+            print('2', similar_movie.genre_ids, ' ', similar_movie.id, ' ',
+                  similar_movie.original_title)
+            recommended_movies.append(similar_movie)
     for trending_movie in trending_movies:
-        if trending_movie not in recommended_movies:
+        if trending_movie not in recommended_movies and trending_movie not in users_movies:
+            print('3', trending_movie.genre_ids, ' ', trending_movie.id, ' ',
+                  trending_movie.original_title)
             recommended_movies.append(trending_movie)
     for interested_in_movie in interested_in_movies:
-        if interested_in_movie not in recommended_movies:
+        if interested_in_movie not in recommended_movies and interested_in_movie not in users_movies:
+            print('4', interested_in_movie.genre_ids, ' ', interested_in_movie.id, ' ',
+                  interested_in_movie.original_title)
             recommended_movies.append(interested_in_movie)
     return recommended_movies
 
@@ -313,7 +383,7 @@ def get_continue_watching_movies_for_user(user_id):
     ----------------------------------------------------------------------"""
     days = FinalVariables.get_number_of_passed_days_for_watched_movies()
     max_limit = FinalVariables.get_number_of_continue_watching_movies()
-    continue_watching_movies = database.fetch_users_disliked_movies_passed_ndays(conn, user_id, days)
+    continue_watching_movies = database.fetch_users_unwatched_movies(conn, user_id, days)
     movie_ids = []
     for recent_movie in continue_watching_movies:
         movie_ids.append(recent_movie[1])
@@ -339,6 +409,5 @@ def get_continue_watching_movies_for_user(user_id):
     return continue_watching_movies_objects
 
 
-results = get_search_results('1234', 'esm')
-for result in results:
-    print(result.id, ' ', result.original_title)
+movies = fetch_movies_for_user('1234')
+user_watches_movie('1234', movies[4], True, False)

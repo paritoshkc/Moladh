@@ -35,5 +35,5 @@ def get_number_of_continue_watching_movies():
 
 
 def get_number_of_passed_days_for_watched_movies():
-    number_of_days = 1
+    number_of_days = 3
     return number_of_days

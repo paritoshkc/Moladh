@@ -33,18 +33,18 @@ class Database():
         conn.commit()
 
 
-    def upsert_movie_watched(self, conn, user_id, movie_id, like):
+    def upsert_movie_watched(self, conn, user_id, movie_id, like, dislike, watched):
         today = date.today()
         cur = conn.cursor()
         query = 'Select count() FROM Movies_Watched WHERE ID = ' + str(user_id) + ' AND MovieID = ' + str(movie_id)
         cur.execute(query)
         rows = cur.fetchall()
         if rows[0][0] <= 0:
-            conn.execute("INSERT INTO Movies_Watched (ID, MovieID, Like, Date_Watched) VALUES (?, ?, ?, ?);", (user_id, movie_id, like, today))
+            conn.execute("INSERT INTO Movies_Watched (ID, MovieID, Like, Date_Watched, Dislike, Watched) VALUES (?, ?, ?, ?, ?, ?);", (user_id, movie_id, like, today, 0, watched))
             conn.commit()
         else:
-            query = 'UPDATE Movies_Watched SET Like = ' + str(like) + \
-                    ' WHERE ID = ' + str(user_id) + ' AND MovieID = ' + str(movie_id)
+            query = 'UPDATE Movies_Watched SET Like = ' + str(like) + ', Watched =' + str(watched) + ', Dislike =  ' +\
+                    str(dislike) + ' WHERE ID = ' + str(user_id) + ' AND MovieID = ' + str(movie_id)
             cur = conn.cursor()
             cur.execute(query)
             conn.commit()
@@ -98,9 +98,11 @@ class Database():
             cur.execute(query)
             conn.commit()
 
+
     def createConnection(self):
         conn = sqlite3.connect("src/Moladh.db", check_same_thread=False)
         return conn
+
 
     def fetch_users_preferences(self, conn, user_id):
         cur = conn.cursor()
@@ -110,10 +112,10 @@ class Database():
         return rows
 
 
-    def fetch_users_disliked_movies_passed_ndays(self, conn, user_id, days):
+    def fetch_users_unwatched_movies(self, conn, user_id, days):
         cur = conn.cursor()
-        query = 'Select ID, MovieID FROM Movies_Watched WHERE ID = ' + str(user_id) + ' AND Like = 0' + \
-                ' AND Date_Watched >= (SELECT date(\'now\', \'' + str(-1 * days) + ' day\'))'
+        query = 'Select ID, MovieID FROM Movies_Watched WHERE ID = ' + str(user_id) + ' AND Watched = 0' + \
+                ' AND Dislke = 0 AND Date_Watched >= (SELECT date(\'now\', \'' + str(-1 * days) + ' day\'))'
         cur.execute(query)
         rows = cur.fetchall()
         return rows
@@ -127,7 +129,8 @@ class Database():
 
     def fetch_users_watched_movies(self, conn, user_id):
         cur = conn.cursor()
-        query = 'Select MovieID, Like FROM Movies_Watched WHERE ID = ' + str(user_id)
+        query = 'Select MovieID, Like, Dislike, Watched, Date_Watched FROM Movies_Watched WHERE ID = ' + \
+                str(user_id) + ' ORDER By Date_Watched DESC'
         cur.execute(query)
         rows = cur.fetchall()
         return rows
@@ -183,11 +186,12 @@ class Database():
         """
         conn.execute(
             '''
-                ALTER TABLE User
-                ADD COLUMN Nationality TEXT
+                ALTER TABLE Movies_Watched
+                ADD COLUMN Watched BOOL
             '''
         )
         """
+
 
         conn.commit()
 

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from src import database
-from src import Backend as be
+import database
+import Backend as be
 from datetime import datetime
 import secrets
 from operator import itemgetter
@@ -110,7 +110,7 @@ def register():
             might_like_title,might_like_poster=fetch_user_might_like_movies()
             continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
             return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
-                           movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title=continue_watch_title
+                           movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title= continue_watch_title
                            ,continue_watch_poster=continue_watch_poster)
 
         else:
@@ -166,8 +166,11 @@ def genre_section():
         i = i + 1
     # print(user_set)
     movie_id,movie_title,movie_poster,genre_id,genre_name=fetch_movies()
+    might_like_title,might_like_poster=fetch_user_might_like_movies()
+    continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
     return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
-                           movie_genres=genre_name)
+                           movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title=continue_watch_title
+                           ,continue_watch_poster=continue_watch_poster)
 
 
 

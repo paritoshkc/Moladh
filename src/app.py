@@ -1,6 +1,6 @@
 from flask import *
-from src import database
-from src import Backend as be
+import database
+import Backend as be
 from datetime import datetime
 import secrets
 from operator import itemgetter

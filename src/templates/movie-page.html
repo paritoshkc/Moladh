@@ -32,11 +32,11 @@
         var top = (height - h) / 2 / systemZoom + dualScreenTop
         var userLikedMovie = false;
         var userWatchedMovie = false;
-        var win =window.open('/test','Movie Window','scrollbars=yes, width=' + w / systemZoom + ', height=' + h / systemZoom + ', top=' + top + ', left=' + left);
+        var win =window.open('/popup','Movie Window','scrollbars=yes, width=' + w / systemZoom + ', height=' + h / systemZoom + ', top=' + top + ', left=' + left);
         win.onbeforeunload = function(){
             $.ajax({
                     method: "POST",
-                    url: "/test/"+cid,
+                    url: "/popup/"+cid,
                     data: {
                         "report": {
                 'userWatchedMovie': userWatchedMovie,
@@ -95,6 +95,7 @@ body {
   background: #FFF linear-gradient(to bottom, #3F567C, #B5CCC6) no-repeat;
   font-family: Open Sans, sans-serif;
 }
+p { word-break: break-all ;white-space: normal;}
 a {
   text-decoration: none;
   transition-duration: .3s;
@@ -517,16 +518,16 @@ a:hover {
                 </div> <!-- left -->
               </div> <!-- title-bar -->
 
-
+ <div style="word-break: break-word">
 				<ul class="list">
                    {% for combine_id , movie_title,movie_poster  in poster_id_title %}
                         <li onclick="myFunction(this.id)" id="{{ combine_id }}">
                             <img src="https://image.tmdb.org/t/p/w92/{{movie_poster}}" alt="" class="cover" />
-                            <p class="title">{{movie_title}}</p>
+                             <p class="title">{{movie_title}}</p>
                         </li>
                     {% endfor %}
           </ul>
-
+</div>
         </div> <!-- movie list -->
         <div class="movie-list">
           <div class="title-bar">

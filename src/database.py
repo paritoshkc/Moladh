@@ -100,7 +100,7 @@ class Database():
 
 
     def createConnection(self):
-        conn = sqlite3.connect("Moladh.db", check_same_thread=False)
+        conn = sqlite3.connect("src/Moladh.db", check_same_thread=False)
         return conn
 
 
@@ -115,7 +115,7 @@ class Database():
     def fetch_users_unwatched_movies(self, conn, user_id, days):
         cur = conn.cursor()
         query = 'Select ID, MovieID FROM Movies_Watched WHERE ID = ' + str(user_id) + ' AND Watched = 0' + \
-                ' AND Dislke = 0 AND Date_Watched >= (SELECT date(\'now\', \'' + str(-1 * days) + ' day\'))'
+                ' AND Dislike = 0 AND Date_Watched >= (SELECT date(\'now\', \'' + str(-1 * days) + ' day\'))'
         cur.execute(query)
         rows = cur.fetchall()
         return rows

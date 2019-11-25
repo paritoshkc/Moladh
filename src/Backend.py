@@ -410,4 +410,4 @@ def get_continue_watching_movies_for_user(user_id):
 
 
 movies = fetch_movies_for_user('1234')
-user_watches_movie('1234', movies[4], True, False)
+#user_watches_movie('1234', movies[4], True, False)

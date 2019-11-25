@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import *
 import database
 import Backend as be
 from datetime import datetime
@@ -60,7 +60,8 @@ def fetch_user_might_like_movies():
         for j in movie_genres[k]:
             genres.append(database.readID_fromGenres(conn, j))
         genre_name.append(genres)
-    return movie_title,movie_poster
+        print(movie_poster[0])
+    return movie_id,movie_title,movie_poster
 
 def fetch_continue_watch_movies():
     movie_details = be.get_continue_watching_movies_for_user(session.get("USER_ID")[-1])
@@ -80,7 +81,9 @@ def fetch_continue_watch_movies():
         for j in movie_genres[k]:
             genres.append(database.readID_fromGenres(conn, j))
         genre_name.append(genres)
-    return movie_title,movie_poster
+    return movie_id,movie_title,movie_poster
+
+
 
 
 @app.route('/')
@@ -107,11 +110,11 @@ def register():
             session["USER_ID"] = database.readUser(conn, username)
             # return render_template('home-page.html', username = username)
             movie_id,movie_title,movie_poster,movie_genres,genre_name=fetch_movies()
-            might_like_title,might_like_poster=fetch_user_might_like_movies()
-            continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
+            might_like_id,might_like_title,might_like_poster=fetch_user_might_like_movies()
+            continue_watch_id,continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
             return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
                            movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title= continue_watch_title
-                           ,continue_watch_poster=continue_watch_poster)
+                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id)
 
         else:
             return render_template('login-page.html')
@@ -166,11 +169,11 @@ def genre_section():
         i = i + 1
     # print(user_set)
     movie_id,movie_title,movie_poster,genre_id,genre_name=fetch_movies()
-    might_like_title,might_like_poster=fetch_user_might_like_movies()
-    continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
+    might_like_id,might_like_title,might_like_poster=fetch_user_might_like_movies()
+    continue_watch_id,continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
     return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
                            movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title=continue_watch_title
-                           ,continue_watch_poster=continue_watch_poster)
+                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id)
 
 
 
@@ -186,6 +189,19 @@ def get_search_result():
     #return render_template('home-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
     #                       movie_genres=genre_name)
     return render_template('search-page.html',url=res,name=name,poster=poster)
+
+
+# @app.route('',)
+@app.route('/movie_watched/<mw>/<ml>/<mid>', methods=['POST'],)
+def movie_watched(mw,ml,mid):
+
+    mw = (mw == '1')
+    ml = (ml == '1')
+   # be.user_watches_movie(username=session.get("USER_ID")[-1],movie_id,ml,mw)
+    print(mw,ml,mid)
+
+    return ('hi')
+
 
 
 @app.route('/check_user', methods=['POST'])

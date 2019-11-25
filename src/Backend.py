@@ -1,7 +1,7 @@
 import requests
 import json
-from src import database
-from src import FinalVariables
+import database
+import FinalVariables
 import urllib.parse
 import operator
 

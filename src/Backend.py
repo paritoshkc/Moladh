@@ -209,8 +209,6 @@ def update_user_preferences(user_id, movie_genre_ids, user_liked_movie):
             if genre not in movie_genre_ids:
                 updated_genre_percentage[genre] = round(genre_percentage[genre] +
                                                         total_percentage_decreased/length_of_genres, 2)
-    #for genre in updated_genre_percentage:
-     #   database.upsert_user_preference(conn, user_id, genre, updated_genre_percentage[genre])
     print(user_liked_movie)
     print(genre_percentage)
     print(updated_genre_percentage)
@@ -257,7 +255,8 @@ def get_similar_user_movies(user_id):
     current_user_movies = database.fetch_users_watched_movies(conn, user_id)
     user_movies = []
     for current_user_movie in current_user_movies:
-        user_movies.append(current_user_movie[0])
+        if current_user_movie[2] == 0:
+            user_movies.append(current_user_movie[0])
     similar_user_movies = database.fetch_users_watched_movies(conn, most_similar_user_id)
     recommended_movies = []
     similar_user_liked_movies = []
@@ -309,7 +308,7 @@ def get_interested_in_movies_for_user(user_id):
         if response.status_code == 200:
             data = json.loads(response.content)
             results = data['results']
-            if results[0]['id'] not in user_movies:
+            if len(results) > 0 and results[0]['id'] not in user_movies:
                 count = count + 1
                 movie_object = deserialize_movie_date(results[0])
                 interested_in_movies_objects.append(movie_object)
@@ -351,27 +350,21 @@ def get_recommended_movies_for_user(user_id):
     Function to get all recommended movies for the user
     ----------------------------------------------------------------------"""
     users_movies = fetch_movies_for_user(user_id)
+    users_movie_ids = []
     for user_movie in users_movies:
-        print('1', user_movie.genre_ids, ' ', user_movie.id, ' ',
-              user_movie.original_title)
+        users_movie_ids.append(user_movie.id)
     similar_user_movies = get_similar_user_movies(user_id)
     trending_movies = get_trending_movies(user_id)
     interested_in_movies = get_interested_in_movies_for_user(user_id)
     recommended_movies = []
     for similar_movie in similar_user_movies:
-        if similar_movie not in users_movies:
-            print('2', similar_movie.genre_ids, ' ', similar_movie.id, ' ',
-                  similar_movie.original_title)
+        if similar_movie.id not in users_movie_ids:
             recommended_movies.append(similar_movie)
     for trending_movie in trending_movies:
-        if trending_movie not in recommended_movies and trending_movie not in users_movies:
-            print('3', trending_movie.genre_ids, ' ', trending_movie.id, ' ',
-                  trending_movie.original_title)
+        if trending_movie not in recommended_movies and trending_movie.id not in users_movie_ids:
             recommended_movies.append(trending_movie)
     for interested_in_movie in interested_in_movies:
-        if interested_in_movie not in recommended_movies and interested_in_movie not in users_movies:
-            print('4', interested_in_movie.genre_ids, ' ', interested_in_movie.id, ' ',
-                  interested_in_movie.original_title)
+        if interested_in_movie not in recommended_movies and interested_in_movie.id not in users_movie_ids:
             recommended_movies.append(interested_in_movie)
     return recommended_movies
 
@@ -409,5 +402,4 @@ def get_continue_watching_movies_for_user(user_id):
     return continue_watching_movies_objects
 
 
-movies = fetch_movies_for_user('1234')
-user_watches_movie('1234', movies[4], True, False)
+get_recommended_movies_for_user('1234')

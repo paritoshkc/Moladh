@@ -29,18 +29,21 @@ def fetch_movies():
     movie_poster = []
     movie_genres = []
     genre_name = []
+    combine_id=[]
     for i in movie_details:
         movie_id.append(i.id)
         movie_title.append(i.original_title)
         movie_poster.append(i.poster_path)
         movie_genres.append(i.genre_ids)
+        combine_id.append(str(i.genre_ids)+'&&'+str(i.id))
     length = len(movie_genres)
     for k in range(length):
         genres = []
         for j in movie_genres[k]:
             genres.append(database.readID_fromGenres(conn, j))
         genre_name.append(genres)
-    return movie_id,movie_title,movie_poster,movie_genres,genre_name
+    #combine_id=str(movie_genres[0])+'&&'+str(movie_id[0])
+    return movie_id,movie_title,movie_poster,movie_genres,genre_name,combine_id
 
 def fetch_user_might_like_movies():
     movie_details = be.get_recommended_movies_for_user(session.get("USER_ID")[-1])
@@ -49,11 +52,13 @@ def fetch_user_might_like_movies():
     movie_poster = []
     movie_genres = []
     genre_name = []
+    combine_id=[]
     for i in movie_details:
         movie_id.append(i.id)
         movie_title.append(i.original_title)
         movie_poster.append(i.poster_path)
         movie_genres.append(i.genre_ids)
+        combine_id.append(str(i.genre_ids)+'&&'+str(i.id))
     length = len(movie_genres)
     for k in range(length):
         genres = []
@@ -61,7 +66,7 @@ def fetch_user_might_like_movies():
             genres.append(database.readID_fromGenres(conn, j))
         genre_name.append(genres)
         print(movie_poster[0])
-    return movie_id,movie_title,movie_poster
+    return movie_title,movie_poster,combine_id
 
 def fetch_continue_watch_movies():
     movie_details = be.get_continue_watching_movies_for_user(session.get("USER_ID")[-1])
@@ -70,18 +75,20 @@ def fetch_continue_watch_movies():
     movie_poster = []
     movie_genres = []
     genre_name = []
+    combine_id=[]
     for i in movie_details:
         movie_id.append(i.id)
         movie_title.append(i.original_title)
         movie_poster.append(i.poster_path)
         movie_genres.append(i.genre_ids)
+        combine_id.append(str(i.genre_ids)+'&&'+str(i.id))
     length = len(movie_genres)
     for k in range(length):
         genres = []
         for j in movie_genres[k]:
             genres.append(database.readID_fromGenres(conn, j))
         genre_name.append(genres)
-    return movie_id,movie_title,movie_poster
+    return movie_title,movie_poster,combine_id
 
 def get_search_movies(url):
     search_details=be.get_search_results(session.get("USER_ID")[-1],url)
@@ -90,18 +97,20 @@ def get_search_movies(url):
     movie_poster = []
     movie_genres = []
     genre_name = []
+    combine_id=[]
     for i in search_details:
         movie_id.append(i.id)
         movie_title.append(i.original_title)
         movie_poster.append(i.poster_path)
         movie_genres.append(i.genre_ids)
+        combine_id.append(str(i.genre_ids)+'&&'+str(i.id))
     length = len(movie_genres)
     for k in range(length):
         genres = []
         for j in movie_genres[k]:
             genres.append(database.readID_fromGenres(conn, j))
         genre_name.append(genres)
-    return movie_id,movie_title,movie_poster
+    return movie_title,movie_poster,combine_id
  
 
 @app.route('/')
@@ -127,12 +136,12 @@ def register():
             session["USERNAME"] = username
             session["USER_ID"] = database.readUser(conn, username)
             # return render_template('home-page.html', username = username)
-            movie_id,movie_title,movie_poster,movie_genres,genre_name=fetch_movies()
-            might_like_id,might_like_title,might_like_poster=fetch_user_might_like_movies()
-            continue_watch_id,continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
+            movie_id,movie_title,movie_poster,movie_genres,genre_name,combine_id=fetch_movies()
+            might_like_title,might_like_poster,might_like_id=fetch_user_might_like_movies()
+            continue_watch_title,continue_watch_poster,continue_watch_id=fetch_continue_watch_movies()
             return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
                            movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title= continue_watch_title
-                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id)
+                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id,combine_id=combine_id)
 
         else:
             return render_template('login-page.html')
@@ -186,12 +195,12 @@ def genre_section():
                                    percent=percent[i])
         i = i + 1
     # print(user_set)
-    movie_id,movie_title,movie_poster,genre_id,genre_name=fetch_movies()
-    might_like_id,might_like_title,might_like_poster=fetch_user_might_like_movies()
-    continue_watch_id,continue_watch_title,continue_watch_poster=fetch_continue_watch_movies()
+    movie_id,movie_title,movie_poster,genre_id,genre_name,combine_id=fetch_movies()
+    might_like_title,might_like_poster,might_like_id=fetch_user_might_like_movies()
+    continue_watch_title,continue_watch_poster,continue_watch_id=fetch_continue_watch_movies()
     return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
                            movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title=continue_watch_title
-                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id)
+                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id,combine_id=combine_id)
 
 
 
@@ -201,7 +210,7 @@ def get_search_result():
     #r = requests.get(url)
     print(url)
     get_search_movies(url)
-    id,name,poster=get_search_movies(url)
+    name,poster,id=get_search_movies(url)
     return render_template('search-page.html',name=name,poster=poster,movie_id=id)
 
 
@@ -211,7 +220,8 @@ def movie_watched(mw,ml,mid):
 
     mw = (mw == '1')
     ml = (ml == '1')
-   # be.user_watches_movie(username=session.get("USER_ID")[-1],movie_id,ml,mw)
+    mid=mid
+    be.user_watches_movie(session.get("USER_ID")[-1], mid,ml,mw)
     print(mw,ml,mid)
 
     return ('hi')

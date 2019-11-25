@@ -1,6 +1,6 @@
 from flask import *
-import database
-import Backend as be
+from src import database
+from src import Backend as be
 from datetime import datetime
 import secrets
 from operator import itemgetter
@@ -122,9 +122,32 @@ def hello():
 def reg():
     return render_template("registration-page.html")
 
+#
+# @app.route('/hello', methods=['POST'])
+# def register():
+#     if request.method == 'POST':
+#
+#         req = request.form
+#
+#         username = req.get('username')
+#         password = req.get('password')
+#
+#         if username and database.checkUser(conn, username, password):
+#             session["USERNAME"] = username
+#             session["USER_ID"] = database.readUser(conn, username)
+#             # return render_template('home-page.html', username = username)
+#             movie_id,movie_title,movie_poster,movie_genres,genre_name,combine_id=fetch_movies()
+#             might_like_title,might_like_poster,might_like_id=fetch_user_might_like_movies()
+#             continue_watch_title,continue_watch_poster,continue_watch_id=fetch_continue_watch_movies()
+#             return render_template('ff.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
+#                            movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title= continue_watch_title
+#                            ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id,combine_id=combine_id)
+#
+#         else:
+#             return render_template('login-page.html')
 
 @app.route('/hello', methods=['POST'])
-def register():
+def register1():
     if request.method == 'POST':
 
         req = request.form
@@ -136,15 +159,13 @@ def register():
             session["USERNAME"] = username
             session["USER_ID"] = database.readUser(conn, username)
             # return render_template('home-page.html', username = username)
-            movie_id,movie_title,movie_poster,movie_genres,genre_name,combine_id=fetch_movies()
-            might_like_title,might_like_poster,might_like_id=fetch_user_might_like_movies()
-            continue_watch_title,continue_watch_poster,continue_watch_id=fetch_continue_watch_movies()
-            return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
-                           movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title= continue_watch_title
-                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id,combine_id=combine_id)
+            movie_id, movie_title, movie_poster, movie_genres, genre_name, combine_id = fetch_movies()
+            might_like_title, might_like_poster, might_like_id = fetch_user_might_like_movies()
+            continue_watch_title, continue_watch_poster, continue_watch_id = fetch_continue_watch_movies()
+            return render_template('movie-page.html', poster_id_title=zip(combine_id,movie_title,movie_poster),might_id_title_poster=zip(might_like_id,might_like_title,might_like_poster),continue_id_title_poster=zip(continue_watch_id,continue_watch_title,continue_watch_poster))
 
         else:
-            return render_template('login-page.html')
+         return render_template('login-page.html')
 
 
 @app.route('/registered', methods=['POST'])

@@ -507,8 +507,8 @@ a:hover {
             </div>
           </form>
           </aside>
-      
-      
+
+
           <div class="main" role="main">
             <div class="movie-list">
               <div class="title-bar">
@@ -516,90 +516,17 @@ a:hover {
                   <p class="bold">Recommended Movies</p>
                 </div> <!-- left -->
               </div> <!-- title-bar -->
-      
-             
+
+
 				<ul class="list">
-            <li onclick="myFunction(this.id)" id="{{combine_id[0]}}">
-                <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[0]}}" alt="" class="cover" />                
-                <p class="title">{{movie_title[0]}}</p>
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[1]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[1]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[1]}}</p>
-              <!-- <p class="genre">{{movie_genres[1]}}</p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[2]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[2]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[2]}}</p>
-              <!-- <p class="genre">{{movie_genres[2]}}</p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[3]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[3]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[3]}}</p>
-              <!--<p class="genre">{{movie_genres[3]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[4]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[4]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[4]}}</p>
-              <!--<p class="genre">{{movie_genres[4]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[5]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[5]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[5]}}</p>
-              <!--<p class="genre">{{movie_genres[5]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[6]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[6]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[6]}}</p>
-              <!--<p class="genre">{{movie_genres[6]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[7]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[7]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[7]}}</p>
-              <!--<p class="genre">{{movie_genres[7]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[8]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[8]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[8]}}</p>
-              <!--<p class="genre">{{movie_genres[8]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[9]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[9]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[9]}}</p>
-              <!--<p class="genre">{{movie_genres[9]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[10]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[10]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[10]}}</p>
-              <!--<p class="genre">{{movie_genres[10]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[11]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[11]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[11]}}</p>
-              <!--<p class="genre">{{movie_genres[11]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[12]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[12]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[12]}}</p>
-              <!--<p class="genre">{{movie_genres[12]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[13]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[13]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[13]}}</p>
-              <!--<p class="genre">{{movie_genres[13]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[14]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[14]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[14]}}</p>
-              <!--<p class="genre">{{movie_genres[14]}}</p></p>-->
-            </li>
-            <li onclick="myFunction(this.id)" id="{{combine_id[15]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[15]}}" alt="" class="cover" />
-              <p class="title">{{movie_title[15]}}</p>
-              <!--<p class="genre">{{movie_genres[15]}}</p></p>-->
-            </li>
+                   {% for combine_id , movie_title,movie_poster  in poster_id_title %}
+                        <li onclick="myFunction(this.id)" id="{{ combine_id }}">
+                            <img src="https://image.tmdb.org/t/p/w92/{{movie_poster}}" alt="" class="cover" />
+                            <p class="title">{{movie_title}}</p>
+                        </li>
+                    {% endfor %}
           </ul>
-  
+
         </div> <!-- movie list -->
         <div class="movie-list">
           <div class="title-bar">
@@ -607,24 +534,14 @@ a:hover {
               <p class="bold">MOVIES YOU MIGHT ALSO LIKE</p>
             </div> <!-- left -->
           </div> <!-- title-bar -->
-  
+
           <ul class="list">
-              <li onclick="myFunction(this.id)" id="{{might_like_id[0]}}">
-              <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[0]}}" alt="" class="cover" />
-              <p class="title">{{might_like_title[0]}}</p>
-            </li>
-            <li onclick="myFunction(this.id)" id="{{might_like_id[1]}}"></li>
-                <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[1]}}" alt="" class="cover" />
-                <p class="title">{{might_like_title[1]}}</p>
-              </li>
-              <li onclick="myFunction(this.id)" id="{{might_like_id[2]}}">
-                  <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[2]}}" alt="" class="cover" />
-                  <p class="title">{{might_like_title[2]}}</p>
-                </li>
-                <li onclick="myFunction(this.id)" id="{{might_like_id[3]}}">
-                    <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[3]}}" alt="" class="cover" />
-                    <p class="title">{{might_like_title[3]}}</p>
-                  </li>
+              {% for combine_id , movie_title ,movie_poster  in might_id_title_poster %}
+                        <li onclick="myFunction(this.id)" id="{{ combine_id }}">
+                            <img src="https://image.tmdb.org/t/p/w92/{{movie_poster}}" alt="" class="cover" />
+                            <p class="title">{{movie_title}}</p>
+                        </li>
+                    {% endfor %}
           </ul>
           </div>
           <div class="movie-list">
@@ -633,31 +550,23 @@ a:hover {
                 <p class="bold">Continue Watching Movies</p>
               </div> <!-- left -->
             </div> <!-- title-bar -->
-    
+
             <ul class="list">
-                <li onclick="myFunction(this.id)" id="{{continue_watch_id[0]}}">
-                <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[0]}}" alt="" class="cover" />
-                <p class="title">{{continue_watch_title[0]}}</p>
-              </li>
-              <li onclick="myFunction(this.id)" id="{{continue_watch_id[1]}}"></li>
-                  <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[1]}}" alt="" class="cover" />
-                  <p class="title">{{continue_watch_title[1]}}</p>
-                </li>
-                <li onclick="myFunction(this.id)" id="{{continue_watch_id[2]}}">
-                    <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[2]}}" alt="" class="cover" />
-                    <p class="title">{{continue_watch_title[2]}}</p>
-                  </li>
-                  <li onclick="myFunction(this.id)" id="{{continue_watch_id[3]}}">
-                      <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[3]}}" alt="" class="cover" />
-                      <p class="title">{{continue_watch_title[3]}}</p>
-                    </li>
+
+                {% for combine_id , movie_title , movie_poster in continue_id_title_poster %}
+                        <li onclick="myFunction(this.id)" id="{{ combine_id }}">
+                            <img src="https://image.tmdb.org/t/p/w92/{{movie_poster}}" alt="" class="cover" />
+                            <p class="title">{{movie_title}}</p>
+                        </li>
+                    {% endfor %}
+
             </ul>
             </div>
-                  
+
           </div> <!-- main -->
-      
+
         </div> <!-- window -->
-      </div> <!-- window margin -->      
+      </div> <!-- window margin -->
 </body>
 
 </html>

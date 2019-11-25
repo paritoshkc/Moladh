@@ -359,6 +359,8 @@ def get_recommended_movies_for_user(user_id):
     for user_movie in users_movies:
         users_movie_ids.append(user_movie.id)
     similar_user_movies = get_similar_user_movies(user_id)
+    for similar_user_movies in similar_user_movies:
+        print(similar_user_movies.original_title, ' ', similar_user_movies.id)
     trending_movies = get_trending_movies(user_id)
     interested_in_movies = get_interested_in_movies_for_user(user_id)
     recommended_movies = []
@@ -402,7 +404,7 @@ def get_continue_watching_movies_for_user(user_id):
             movie_object = MovieDetails(data['original_title'], data['id'], data['vote_average'], data['overview'],
                                         data['release_date'], data['adult'], data['poster_path'], genres_ids)
             continue_watching_movies_objects.append(movie_object)
-            if count <= max_limit:
+            if count == max_limit:
                 break
     return continue_watching_movies_objects
 

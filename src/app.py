@@ -237,5 +237,10 @@ def print_user_details():
         return render_template('user_home.html', username=username, password=password)
 
 
+@app.route('/test', methods=['GET'])
+def test():
+    return render_template('loading_page.html')
+
+
 if __name__ == '__main__':
     app.run()

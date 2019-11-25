@@ -8,6 +8,85 @@
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+
+    $('a').on('click', function(e) {
+      e.preventDefault();
+    });
+
+    $('.trigger-sidebar-toggle').on('click', function() {
+      $('body').toggleClass('sidebar-is-open');
+    });
+  });
+
+  function myFunction(cid) {
+        var w=900;
+        var h=500;
+        var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+        var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+        var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+        var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+        var systemZoom = width / window.screen.availWidth;
+        var left = (width - w) / 2 / systemZoom + dualScreenLeft
+        var top = (height - h) / 2 / systemZoom + dualScreenTop
+        var userLikedMovie = false;
+        var userWatchedMovie = false;
+        var win =window.open('/test','Movie Window','scrollbars=yes, width=' + w / systemZoom + ', height=' + h / systemZoom + ', top=' + top + ', left=' + left);
+        win.onbeforeunload = function(){
+            $.ajax({
+                    method: "POST",
+                    url: "/test/"+cid,
+                    data: {
+                        "report": {
+                'userWatchedMovie': userWatchedMovie,
+                'userLikedMovie' : userLikedMovie
+                        }
+                    },
+                    success: function (response) {
+                        console.log(response)
+                    }
+
+                });
+          postData(userWatchedMovie,userLikedMovie,cid);
+    }
+      setTimeout(function() {
+        userLikedMovie = true;
+          userWatchedMovie = false;
+
+    }, 3000);
+    setTimeout(function() {
+        userWatchedMovie = true;
+        win.close()
+    }, 10000);
+
+  }
+
+  function postData(userWatchedMovie,userLikedMovie,cid)
+  {
+    mw = userWatchedMovie ? "1" : "0";
+    ml = userLikedMovie ? "1" : "0";
+    console.log(cid)
+    $.ajax({
+				method: "POST",
+				url: "/movie_watched/"+mw+"/"+ml+"/"+cid,
+				data: {
+					"report": {
+            'userWatchedMovie': userWatchedMovie,
+            'userLikedMovie' : userLikedMovie
+					}
+				},
+				success: function (response) {
+					console.log(response)
+				}
+
+			});
+  }
+
+
+</script>
+
+
 </head>
 <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'><script src='https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js'></script>
 <style class="cp-pen-styles">@import url(https://fonts.googleapis.com/css?family=Open+Sans:600,300,100|Open+Sans+Condensed:300);
@@ -580,61 +659,5 @@ a:hover {
         </div> <!-- window -->
       </div> <!-- window margin -->      
 </body>
-<script>
-  jQuery(document).ready(function($) {
 
-    $('a').on('click', function(e) {
-      e.preventDefault();
-    });
-
-    $('.trigger-sidebar-toggle').on('click', function() {
-      $('body').toggleClass('sidebar-is-open');
-    });
-  });
-
-  function myFunction(cid) {
-    var userLikedMovie = false;
-      var userWatchedMovie = false;
-      //var cmid=cid;
-     // console.log(cid)
-      //var cid =0;
-    var win =window.open('','Mywindow','width=600,height=300,top=50,left=100');
-    win.onbeforeunload = function(){ 
-      postData(userWatchedMovie,userLikedMovie,cid);
-    }
-      setTimeout(function() { 
-        userLikedMovie = true;
-          userWatchedMovie = false;
-          
-    }, 3000);
-    setTimeout(function() { 
-        userWatchedMovie = true;
-        win.close() 
-    }, 10000);
-    
-  }
-
-  function postData(userWatchedMovie,userLikedMovie,cid)
-  {
-    mw = userWatchedMovie ? "1" : "0";
-    ml = userLikedMovie ? "1" : "0";
-    console.log(cid)
-    $.ajax({
-				method: "POST",
-				url: "/movie_watched/"+mw+"/"+ml+"/"+cid,
-				data: {
-					"report": { 
-            'userWatchedMovie': userWatchedMovie,
-            'userLikedMovie' : userLikedMovie
-					}
-				},
-				success: function (response) {
-					console.log(response)
-				}
-				
-			});
-  }
-
-
-</script>
 </html>

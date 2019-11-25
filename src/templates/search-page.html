@@ -4,7 +4,7 @@
 
 
 <!DOCTYPE html><html class=''>
-<head><script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/AyhanALTINOK/pen/Atlva"/>
+<head>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -523,65 +523,65 @@ a:hover {
 				</div> <!-- title-bar -->
 
 				<ul class="list">
-					<li>
+					<li onclick="myFunction(this.id)" id="{{movie_id[0]}}">
 						<img src="https://image.tmdb.org/t/p/w92/{{poster[0]}}" alt="" class="cover" />
 						<p class="title">{{name[0]}}</p>
 					</li>
-					<li>
+					<li onclick="myFunction(this.id)" id="{{movie_id[1]}}">
 						<img src="https://image.tmdb.org/t/p/w92/{{poster[1]}}" alt="" class="cover" />
 						<p class="title">{{name[1]}}</p>
 
 
 					</li>
-					<li>
+					<li onclick="myFunction(this.id)" id="{{movie_id[2]}}">
 						<img src="https://image.tmdb.org/t/p/w92/{{poster[2]}}" alt="" class="cover" />
 						<p class="title">{{name[2]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[3]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[3]}}" alt="" class="cover" />
                             <p class="title">{{name[3]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[4]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[4]}}" alt="" class="cover" />
                             <p class="title">{{name[4]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[5]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[5]}}" alt="" class="cover" />
                             <p class="title">{{name[5]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[6]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[6]}}" alt="" class="cover" />
                             <p class="title">{{name[6]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[7]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[7]}}" alt="" class="cover" />
                             <p class="title">{{name[7]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[8]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[8]}}" alt="" class="cover" />
                             <p class="title">{{name[8]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[9]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[9]}}" alt="" class="cover" />
                             <p class="title">{{name[9]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[10]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[10]}}" alt="" class="cover" />
                             <p class="title">{{name[10]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[11]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[11]}}" alt="" class="cover" />
                             <p class="title">{{name[11]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[12]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[12]}}" alt="" class="cover" />
                             <p class="title">{{name[12]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[13]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[13]}}" alt="" class="cover" />
                             <p class="title">{{name[13]}}</p>
                     </li>
-                    <li>
+                    <li onclick="myFunction(this.id)" id="{{movie_id[14]}}">
                             <img src="https://image.tmdb.org/t/p/w92/{{poster[14]}}" alt="" class="cover" />
                             <p class="title">{{name[14]}}</p>
                     </li>
@@ -607,7 +607,48 @@ a:hover {
 	});
 
 });
-<input type="submit" value="Submit"/>
+function myFunction(cid) {
+    var userLikedMovie = false;
+      var userWatchedMovie = false;
+      //var cmid=cid;
+     // console.log(cid)
+      //var cid =0;
+    var win =window.open('','Mywindow','width=600,height=300,top=50,left=100');
+    win.onbeforeunload = function(){ 
+      postData(userWatchedMovie,userLikedMovie,cid);
+    }
+      setTimeout(function() { 
+        userLikedMovie = true;
+          userWatchedMovie = false;
+          
+    }, 3000);
+    setTimeout(function() { 
+        userWatchedMovie = true;
+        win.close() 
+    }, 10000);
+    
+  }
+
+  function postData(userWatchedMovie,userLikedMovie,cid)
+  {
+    mw = userWatchedMovie ? "1" : "0";
+    ml = userLikedMovie ? "1" : "0";
+    console.log(cid)
+    $.ajax({
+				method: "POST",
+				url: "/movie_watched/"+mw+"/"+ml+"/"+cid,
+				data: {
+					"report": { 
+            'userWatchedMovie': userWatchedMovie,
+            'userLikedMovie' : userLikedMovie
+					}
+				},
+				success: function (response) {
+					console.log(response)
+				}
+				
+			});
+  }
 //# sourceURL=pen.js
 </script>
 </body></html>

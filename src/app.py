@@ -83,8 +83,26 @@ def fetch_continue_watch_movies():
         genre_name.append(genres)
     return movie_id,movie_title,movie_poster
 
-
-
+def get_search_movies(url):
+    search_details=be.get_search_results(session.get("USER_ID")[-1],url)
+    movie_id = []
+    movie_title = []
+    movie_poster = []
+    movie_genres = []
+    genre_name = []
+    for i in search_details:
+        movie_id.append(i.id)
+        movie_title.append(i.original_title)
+        movie_poster.append(i.poster_path)
+        movie_genres.append(i.genre_ids)
+    length = len(movie_genres)
+    for k in range(length):
+        genres = []
+        for j in movie_genres[k]:
+            genres.append(database.readID_fromGenres(conn, j))
+        genre_name.append(genres)
+    return movie_id,movie_title,movie_poster
+ 
 
 @app.route('/')
 def hello():
@@ -182,13 +200,9 @@ def get_search_result():
     url = request.form['url']
     #r = requests.get(url)
     print(url)
-    res=be.get_search_results(session.get("USER_ID")[-1],url)
-    poster = list(map(itemgetter('poster_path'), res)) 
-    name=list(map(itemgetter('original_title'), res))
-    #movie_id,movie_title,movie_poster,movie_genres,genre_name=fetch_movies()
-    #return render_template('home-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
-    #                       movie_genres=genre_name)
-    return render_template('search-page.html',url=res,name=name,poster=poster)
+    get_search_movies(url)
+    id,name,poster=get_search_movies(url)
+    return render_template('search-page.html',name=name,poster=poster,movie_id=id)
 
 
 # @app.route('',)

@@ -1,7 +1,7 @@
 import requests
 import json
-import database
-import FinalVariables
+from src import database
+from src import FinalVariables
 import urllib.parse
 import operator
 
@@ -35,20 +35,20 @@ def deserialize_movie_date(movie_date):
     return movie_object
 
 
-def user_watches_movie(user_id, movie_object, user_liked, user_watched):
+def user_watches_movie(user_id, movie_id, user_liked, user_watched):
     """----------------------------------------------------------------------
     Function to update user_preference and users_movies_watched once the
     user has watched the movie
     ----------------------------------------------------------------------"""
     update_users_previous_actions(user_id)
     if user_liked and user_watched:
-        update_user_preferences(user_id, movie_object.id, True)
-        database.upsert_movie_watched(conn, user_id, movie_object.id, 1, 0, 1)
+        update_user_preferences(user_id, movie_id, True)
+        database.upsert_movie_watched(conn, user_id, movie_id, 1, 0, 1)
     elif user_liked and not user_watched:
-        update_user_preferences(user_id, movie_object.genre_ids, True)
-        database.upsert_movie_watched(conn, user_id, movie_object.id, 1, 0, 0)
+        #update_user_preferences(user_id, movie_object.genre_ids, True)
+        database.upsert_movie_watched(conn, user_id, movie_id, 1, 0, 0)
     elif not user_liked:
-        database.upsert_movie_watched(conn, user_id, movie_object.id, 0, 0, 0)
+        database.upsert_movie_watched(conn, user_id, movie_id, 0, 0, 0)
 
 
 def update_users_previous_actions(user_id):

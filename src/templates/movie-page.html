@@ -4,7 +4,7 @@
 
 
 <!DOCTYPE html><html class=''>
-<head><script src='//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/events_runner-73716630c22bbc8cff4bd0f07b135f00a0bdc5d14629260c3ec49e5606f98fdd.js'></script><script src='//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js'></script><meta charset='UTF-8'><meta name="robots" content="noindex"><link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" /><link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" /><link rel="canonical" href="https://codepen.io/AyhanALTINOK/pen/Atlva"/>
+<head>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
@@ -413,269 +413,228 @@ a:hover {
     transform: translateX(250px);
   }
 }
-</style></head><body>
-<div class="window-margin">
-	<div class="window">
-		<aside class="sidebar">
-			<div class="top-bar">
-				<p class="logo">MOLADH</p>
-			</div>
-      <form role="form" method='POST' action='/select-page'>
-			<div class="search-box">
-				<input type="text" name ="url" placeholder="Search..."/>
-        <p class="fa fa-search"></p>
-        <!--<button type="submit" class="btn btn-default">Submit</button>-->
-      </div>
-    </form>
-
-			<!--<menu class="menu">
-				<p class="menu-name">Movie trailers</p>
-				<ul>
-					<li class="active">
-						<a href="#">Action / Adventure</a>
-						<ul>
-							<li><a href="#">Latest</a></li>
-							<li class="active"><a href="#">Popular</a></li>
-							<li><a href="#">Coming soon</a></li>
-							<li><a href="#">Staff picks</a></li>
-						</ul>
-					</li>
-					<li><a href="#">Animation</a></li>
-					<li><a href="#">Comedy</a></li>
-					<li><a href="#">Documentaries</a></li>
-					<li><a href="#">Drama</a></li>
-					<li><a href="#">Horror</a></li>
-					<li><a href="#">Sci-Fi  / Fantasy</a></li>
-					<li><a href="#">List A-Z</a></li>
-				</ul>
-
-				<div class="separator"></div>
-
-				<ul class="no-bullets">
-					<li><a href="#">Latest news</a></li>
-					<li><a href="#">Critic reviews</a></li>
-					<li><a href="#">Box office</a></li>
-					<li><a href="#">Top 250</a></li>
-				</ul>
-
-				<div class="separator"></div>
-			</menu>-->
-		</aside>
-
-
-		<div class="main" role="main">
+</style>
+<body>
+    <div class="window-margin">
+        <div class="window">
+          <aside class="sidebar">
+            <div class="top-bar">
+              <p class="logo">MOLADH</p>
+            </div>
+            <form role="form" method='POST' action='/select-page'>
+            <div class="search-box">
+              <input type="text" name ="url" placeholder="Search..."/>
+              <p class="fa fa-search"></p>
+            </div>
+          </form>
+          </aside>
       
-			<!--<div class="top-bar">
-
-				<ul class="top-menu">
-					<li class="menu-icon trigger-sidebar-toggle">
-						<div class="line"></div>
-						<div class="line"></div>
-						<div class="line"></div>
-					</li>
-					<li><a href="#">Headlines</a></li>
-					<li><a href="#">Articles</a></li>
-					<li class="active"><a href="#">Movies & Films</a></li>
-					<li><a href="#">Television</a></li>
-					<li><a href="#">Music</a></li>
-					<li><a href="#">Celebrities</a></li>
-				</ul>
-
-				<div class="profile-box">
-					<div class="circle"></div>
-					<span class="arrow fa fa-angle-down"></span>
-				</div>
-
-			</div>--> <!-- top bar -->
-
-
-			<!--<div class="featured-movie">
-				<img class="cover" src="https://res.cloudinary.com/dddcqqk0g/image/upload/v1394277453/backdrop_ggwxvq.jpg" alt="" class="cover" />
-				<p class="corner-title">Staff pick</p>
-
-				<div class="bottom-bar">
-					<div class="title-container">
-						<span class="fa fa-play-circle"></span>
-						<b>Non-stop</b> Trailer #1
-					</div>
-
-					<div class="right">
-						<div class="stars">
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star"></span>
-							<span class="fa fa-star-half-o"></span>
-							<span class="fa fa-star-o"></span>
-						</div>
-						<div class="share">
-							<icon class="fa fa-share-square"></icon> Share
-						</div>
-					</div>--> <!-- right -->
-				<!--</div>--> <!-- bottom bar -->
-			<!--</div>--> <!-- featured -->
-
-
-			<div class="movie-list">
-				<div class="title-bar">
-					<div class="left">
-						<p class="bold">Recommended Movies</p>
-					</div> <!-- left -->
-				</div> <!-- title-bar -->
-
+      
+          <div class="main" role="main">
+            <div class="movie-list">
+              <div class="title-bar">
+                <div class="left">
+                  <p class="bold">Recommended Movies</p>
+                </div> <!-- left -->
+              </div> <!-- title-bar -->
+      
+             
 				<ul class="list">
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[0]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[0]}}</p>
-						<!-- <p class="genre">{{movie_genres[0]}}</p> -->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[1]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[1]}}</p>
-						<!-- <p class="genre">{{movie_genres[1]}}</p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[2]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[2]}}</p>
-						<!-- <p class="genre">{{movie_genres[2]}}</p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[3]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[3]}}</p>
-						<!--<p class="genre">{{movie_genres[3]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[4]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[4]}}</p>
-						<!--<p class="genre">{{movie_genres[4]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[5]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[5]}}</p>
-						<!--<p class="genre">{{movie_genres[5]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[6]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[6]}}</p>
-						<!--<p class="genre">{{movie_genres[6]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[7]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[7]}}</p>
-						<!--<p class="genre">{{movie_genres[7]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[8]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[8]}}</p>
-						<!--<p class="genre">{{movie_genres[8]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[9]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[9]}}</p>
-						<!--<p class="genre">{{movie_genres[9]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[10]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[10]}}</p>
-						<!--<p class="genre">{{movie_genres[10]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[11]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[11]}}</p>
-						<!--<p class="genre">{{movie_genres[11]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[12]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[12]}}</p>
-						<!--<p class="genre">{{movie_genres[12]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[13]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[13]}}</p>
-						<!--<p class="genre">{{movie_genres[13]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[14]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[14]}}</p>
-						<!--<p class="genre">{{movie_genres[14]}}</p></p>-->
-					</li>
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{movie_poster[15]}}" alt="" class="cover" />
-						<p class="title">{{movie_title[15]}}</p>
-						<!--<p class="genre">{{movie_genres[15]}}</p></p>-->
-					</li>
-				</ul>
-
-			</div> <!-- movie list -->
-      <div class="movie-list">
-				<div class="title-bar">
-					<div class="left">
-						<p class="bold">MOVIES YOU MIGHT ALSO LIKE</p>
-					</div> <!-- left -->
-				</div> <!-- title-bar -->
-
-				<ul class="list">
-					<li>
-						<img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[0]}}" alt="" class="cover" />
-						<p class="title">{{might_like_title[0]}}</p>
-          </li>
-          <li>
-              <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[1]}}" alt="" class="cover" />
-              <p class="title">{{might_like_title[1]}}</p>
+            <li onclick="myFunction(this.id)" id="{{movie_id[0]}}">
+                <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[0]}}" alt="" class="cover" />                
+                <p class="title">{{movie_title[0]}}</p>
             </li>
-            <li>
-                <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[2]}}" alt="" class="cover" />
-                <p class="title">{{might_like_title[2]}}</p>
-              </li>
-              <li>
-                  <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[3]}}" alt="" class="cover" />
-                  <p class="title">{{might_like_title[3]}}</p>
-                </li>
-        </ul>
-        </div>
+            <li onclick="myFunction(this.id)" id="{{movie_id[1]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[1]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[1]}}</p>
+              <!-- <p class="genre">{{movie_genres[1]}}</p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[2]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[2]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[2]}}</p>
+              <!-- <p class="genre">{{movie_genres[2]}}</p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[3]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[3]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[3]}}</p>
+              <!--<p class="genre">{{movie_genres[3]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[4]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[4]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[4]}}</p>
+              <!--<p class="genre">{{movie_genres[4]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[5]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[5]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[5]}}</p>
+              <!--<p class="genre">{{movie_genres[5]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[6]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[6]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[6]}}</p>
+              <!--<p class="genre">{{movie_genres[6]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[7]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[7]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[7]}}</p>
+              <!--<p class="genre">{{movie_genres[7]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[8]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[8]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[8]}}</p>
+              <!--<p class="genre">{{movie_genres[8]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[9]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[9]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[9]}}</p>
+              <!--<p class="genre">{{movie_genres[9]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[10]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[10]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[10]}}</p>
+              <!--<p class="genre">{{movie_genres[10]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[11]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[11]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[11]}}</p>
+              <!--<p class="genre">{{movie_genres[11]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[12]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[12]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[12]}}</p>
+              <!--<p class="genre">{{movie_genres[12]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[13]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[13]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[13]}}</p>
+              <!--<p class="genre">{{movie_genres[13]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[14]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[14]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[14]}}</p>
+              <!--<p class="genre">{{movie_genres[14]}}</p></p>-->
+            </li>
+            <li onclick="myFunction(this.id)" id="{{movie_id[15]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{movie_poster[15]}}" alt="" class="cover" />
+              <p class="title">{{movie_title[15]}}</p>
+              <!--<p class="genre">{{movie_genres[15]}}</p></p>-->
+            </li>
+          </ul>
+  
+        </div> <!-- movie list -->
         <div class="movie-list">
           <div class="title-bar">
             <div class="left">
-              <p class="bold">Continue Watching Movies</p>
+              <p class="bold">MOVIES YOU MIGHT ALSO LIKE</p>
             </div> <!-- left -->
           </div> <!-- title-bar -->
   
           <ul class="list">
-            <li>
-              <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[0]}}" alt="" class="cover" />
-              <p class="title">{{continue_watch_title[0]}}</p>
+              <li onclick="myFunction(this.id)" id="{{might_like_id[0]}}">
+              <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[0]}}" alt="" class="cover" />
+              <p class="title">{{might_like_title[0]}}</p>
             </li>
-            <li>
-                <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[1]}}" alt="" class="cover" />
-                <p class="title">{{continue_watch_title[1]}}</p>
+            <li onclick="myFunction(this.id)" id="{{might_like_id[1]}}"></li>
+                <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[1]}}" alt="" class="cover" />
+                <p class="title">{{might_like_title[1]}}</p>
               </li>
-              <li>
-                  <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[2]}}" alt="" class="cover" />
-                  <p class="title">{{continue_watch_title[2]}}</p>
+              <li onclick="myFunction(this.id)" id="{{might_like_id[2]}}">
+                  <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[2]}}" alt="" class="cover" />
+                  <p class="title">{{might_like_title[2]}}</p>
                 </li>
-                <li>
-                    <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[3]}}" alt="" class="cover" />
-                    <p class="title">{{continue_watch_title[3]}}</p>
+                <li onclick="myFunction(this.id)" id="{{might_like_id[3]}}">
+                    <img src="https://image.tmdb.org/t/p/w92/{{might_like_poster[3]}}" alt="" class="cover" />
+                    <p class="title">{{might_like_title[3]}}</p>
                   </li>
           </ul>
           </div>
+          <div class="movie-list">
+            <div class="title-bar">
+              <div class="left">
+                <p class="bold">Continue Watching Movies</p>
+              </div> <!-- left -->
+            </div> <!-- title-bar -->
+    
+            <ul class="list">
+                <li onclick="myFunction(this.id)" id="{{continue_watch_id[0]}}">
+                <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[0]}}" alt="" class="cover" />
+                <p class="title">{{continue_watch_title[0]}}</p>
+              </li>
+              <li onclick="myFunction(this.id)" id="{{continue_watch_id[1]}}"></li>
+                  <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[1]}}" alt="" class="cover" />
+                  <p class="title">{{continue_watch_title[1]}}</p>
+                </li>
+                <li onclick="myFunction(this.id)" id="{{continue_watch_id[2]}}">
+                    <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[2]}}" alt="" class="cover" />
+                    <p class="title">{{continue_watch_title[2]}}</p>
+                  </li>
+                  <li onclick="myFunction(this.id)" id="{{continue_watch_id[3]}}">
+                      <img src="https://image.tmdb.org/t/p/w92/{{continue_watch_poster[3]}}" alt="" class="cover" />
+                      <p class="title">{{continue_watch_title[3]}}</p>
+                    </li>
+            </ul>
+            </div>
+                  
+          </div> <!-- main -->
+      
+        </div> <!-- window -->
+      </div> <!-- window margin -->      
+</body>
+<script>
+  jQuery(document).ready(function($) {
 
-		</div> <!-- main -->
+    $('a').on('click', function(e) {
+      e.preventDefault();
+    });
 
-	</div> <!-- window -->
-</div> <!-- window margin -->
-<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
-<script >jQuery(document).ready(function($) {
+    $('.trigger-sidebar-toggle').on('click', function() {
+      $('body').toggleClass('sidebar-is-open');
+    });
+  });
 
-	$('a').on('click', function(e) {
-		e.preventDefault();
-	});
+  function myFunction(cid) {
+    var userLikedMovie = false;
+      var userWatchedMovie = false;
+      //var cmid=cid;
+     // console.log(cid)
+      //var cid =0;
+    var win =window.open('','Movie Window','width=600,height=300,top=50,left=100');
+    win.onbeforeunload = function(){ 
+      postData(userWatchedMovie,userLikedMovie,cid);
+    }
+      setTimeout(function() { 
+        userLikedMovie = true;
+          userWatchedMovie = false;
+          
+    }, 3000);
+    setTimeout(function() { 
+        userWatchedMovie = true;
+        win.close() 
+    }, 10000);
+    
+  }
 
-	$('.trigger-sidebar-toggle').on('click', function() {
-		$('body').toggleClass('sidebar-is-open');
-	});
+  function postData(userWatchedMovie,userLikedMovie,cid)
+  {
+    mw = userWatchedMovie ? "1" : "0";
+    ml = userLikedMovie ? "1" : "0";
+    console.log(cid)
+    $.ajax({
+				method: "POST",
+				url: "/movie_watched/"+mw+"/"+ml+"/"+cid,
+				data: {
+					"report": { 
+            'userWatchedMovie': userWatchedMovie,
+            'userLikedMovie' : userLikedMovie
+					}
+				},
+				success: function (response) {
+					console.log(response)
+				}
+				
+			});
+  }
 
-});
-<input type="submit" value="Submit"/>
-//# sourceURL=pen.js
+
 </script>
-</body></html>
+</html>

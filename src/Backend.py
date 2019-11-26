@@ -369,11 +369,8 @@ def get_recommended_movies_for_user(user_id):
     for user_movie in users_movies:
         users_movie_ids.append(user_movie.id)
     similar_user_movies = get_similar_user_movies(user_id)
-    print(len(similar_user_movies))
     trending_movies = get_trending_movies(user_id)
-    print(len(trending_movies))
     interested_in_movies = get_interested_in_movies_for_user(user_id)
-    print(len(interested_in_movies))
     recommended_movies = []
     for similar_movie in similar_user_movies:
         if similar_movie.id not in users_movie_ids:
@@ -419,9 +416,6 @@ def get_continue_watching_movies_for_user(user_id):
                 break
     return continue_watching_movies_objects
 
-
-movies = get_recommended_movies_for_user('1234')
-print(len(movies))
 
 """
 movies = fetch_movies_for_user('1234')

@@ -90,8 +90,8 @@ a:hover {
     font-size: 14px;
 }
 .window-margin {
-  max-width: 1200px;
-  padding: 60px;
+  max-width: 1500px;
+  padding: 30px;
   margin: auto;
 }
 .window {
@@ -528,7 +528,7 @@ a:hover {
 		</aside>
 
 
-		<div class="main" role="main">
+		<div class="main"  role="main">
       
 			<!--<div class="top-bar">
 
@@ -583,10 +583,13 @@ a:hover {
 			<div class="movie-list">
 				<div class="title-bar">
 					<div class="left">
-						<p class="bold">Recommended Movies</p>
-                         <form action='/login' method='GET'>
-                        <button class="glow-on-hover" type="submit" style="position: absolute; right: 10px;top:10px;width: 100px;height: 25px"> Logout</button>
-                    </form>
+            <p class="bold">Recommended Movies</p>
+            <form method="POST" action="/reset_page">
+              <button class="glow-on-hover" type="submit" style="position: absolute; right: 120px;top:10px;width: 130px;height: 25px"> Reset Genres</button>
+            </form>
+                <form action='/login' method='GET'>
+                  <button class="glow-on-hover" type="submit" style="position: absolute; right: 10px;top:10px;width: 100px;height: 25px"> Logout</button>
+                </form>
 					</div> <!-- left -->
 				</div> <!-- title-bar -->
 
@@ -598,9 +601,6 @@ a:hover {
 					</li>
                     {% endfor %}
                 </ul>
-                <form align="center" method="POST" action="/reset_page">
-                <input type="submit" class="glow-on-hover" value="Update your Preferences"/>
-                </form>
 			</div> <!-- movie list -->
       
 
@@ -608,6 +608,9 @@ a:hover {
 
 	</div> <!-- window -->
 </div> <!-- window margin -->
+<footer>
+    <h3 style="color: #2c2c2c;position: center">@Team Moreau</h3>
+  </footer>
 <script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script>
 <script >jQuery(document).ready(function($) {
 

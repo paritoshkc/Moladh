@@ -530,70 +530,13 @@ a:hover {
 				</div> <!-- title-bar -->
 
 				<ul class="list">
-					<li onclick="myFunction(this.id)" id="{{movie_id[0]}}">
-						<img src="https://image.tmdb.org/t/p/w92/{{poster[0]}}" alt="" class="cover" />
-						<p class="title">{{name[0]}}</p>
+					{% for  name , poster ,movie_id in name_poster_id %}
+                        <li onclick="myFunction(this.id)" id="{{movie_id}}">
+						<img src="https://image.tmdb.org/t/p/w92/{{poster}}" alt="" class="cover" />
+						<p class="movie">{{name}}</p>
 					</li>
-					<li onclick="myFunction(this.id)" id="{{movie_id[1]}}">
-						<img src="https://image.tmdb.org/t/p/w92/{{poster[1]}}" alt="" class="cover" />
-						<p class="title">{{name[1]}}</p>
-
-
-					</li>
-					<li onclick="myFunction(this.id)" id="{{movie_id[2]}}">
-						<img src="https://image.tmdb.org/t/p/w92/{{poster[2]}}" alt="" class="cover" />
-						<p class="title">{{name[2]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[3]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[3]}}" alt="" class="cover" />
-                            <p class="title">{{name[3]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[4]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[4]}}" alt="" class="cover" />
-                            <p class="title">{{name[4]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[5]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[5]}}" alt="" class="cover" />
-                            <p class="title">{{name[5]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[6]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[6]}}" alt="" class="cover" />
-                            <p class="title">{{name[6]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[7]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[7]}}" alt="" class="cover" />
-                            <p class="title">{{name[7]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[8]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[8]}}" alt="" class="cover" />
-                            <p class="title">{{name[8]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[9]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[9]}}" alt="" class="cover" />
-                            <p class="title">{{name[9]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[10]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[10]}}" alt="" class="cover" />
-                            <p class="title">{{name[10]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[11]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[11]}}" alt="" class="cover" />
-                            <p class="title">{{name[11]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[12]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[12]}}" alt="" class="cover" />
-                            <p class="title">{{name[12]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[13]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[13]}}" alt="" class="cover" />
-                            <p class="title">{{name[13]}}</p>
-                    </li>
-                    <li onclick="myFunction(this.id)" id="{{movie_id[14]}}">
-                            <img src="https://image.tmdb.org/t/p/w92/{{poster[14]}}" alt="" class="cover" />
-                            <p class="title">{{name[14]}}</p>
-                    </li>
-					
-				</ul>
+                    {% endfor %}
+                </ul>
 
 			</div> <!-- movie list -->
       

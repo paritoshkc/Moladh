@@ -1,6 +1,6 @@
 from flask import *
-from src import database
-from src import Backend as be
+import database
+import Backend as be
 from datetime import datetime
 import secrets
 from operator import itemgetter
@@ -219,10 +219,7 @@ def genre_section():
     movie_id,movie_title,movie_poster,genre_id,genre_name,combine_id=fetch_movies()
     might_like_title,might_like_poster,might_like_id=fetch_user_might_like_movies()
     continue_watch_title,continue_watch_poster,continue_watch_id=fetch_continue_watch_movies()
-    return render_template('movie-page.html', movie_id=movie_id, movie_title=movie_title, movie_poster=movie_poster,
-                           movie_genres=genre_name,might_like_title=might_like_title,might_like_poster = might_like_poster,continue_watch_title=continue_watch_title
-                           ,continue_watch_poster=continue_watch_poster,might_like_id=might_like_id,continue_watch_id=continue_watch_id,combine_id=combine_id)
-
+    return render_template('movie-page.html',poster_id_title=zip(combine_id,movie_title,movie_poster),might_id_title_poster=zip(might_like_id,might_like_title,might_like_poster),continue_id_title_poster=zip(continue_watch_id,continue_watch_title,continue_watch_poster))
 
 
 @app.route('/select-page',methods=['POST'])
@@ -232,7 +229,7 @@ def get_search_result():
     print(url)
     get_search_movies(url)
     name,poster,id=get_search_movies(url)
-    return render_template('search-page.html',name=name,poster=poster,movie_id=id)
+    return render_template('search-page.html',name_poster_id=zip(name,poster,id))
 
 
 # @app.route('',)

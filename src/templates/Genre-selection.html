@@ -160,7 +160,7 @@ body {
         }
 
         .listrap strong {
-            margin-left: 10px;
+            margin-left: 2%;
         }
 
         .listrap .listrap-toggle {
@@ -203,153 +203,164 @@ body {
 	<ul class="row" align="center">
         <div class="column">
 		<ul class="listrap">
-            <li>
-                <div >
-                    <input type="checkbox" name="check" value="{{genreid[0]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=1" class="img-circle" />
+                 <li>
 
-                </div>
-                <strong>{{genrename[0]}}</strong>
-            </li>
-            <li >
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[1]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=2" class="img-circle" />
-                </div>
-                <strong>{{genrename[1]}}</strong>
-            </li>
-            <li >
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[2]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=3" class="img-circle" />
-                </div>
-                <strong>{{genrename[2]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[3]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=4" class="img-circle" />
-                </div>
-                <strong>{{genrename[3]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[4]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=5" class="img-circle" />
-                </div>
-                <strong>{{genrename[4]}}</strong>
-            </li>
+             {% for genrename , genreid in name_id %}
+                    <strong>{{genrename}}</strong> <input type="checkbox" name="check" value="{{genreid}}">
+{#                    <img src="http://lorempixel.com/45/45/people/?v=1" class="img-circle" />#}
+
+
+
+                    {% endfor %}
+                </li>
         </ul>
-        </div>
-        <div class="column">
-		<ul class="listrap">
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[5]}}">
-                    <img src="http://lorempixel.com/45/45/abstract/?v=1" class="img-circle" />
-                </div>
-                <strong>{{genrename[5]}}</strong>
-            </li>
-            <li >
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[6]}}">
-                    <img src="http://lorempixel.com/45/45/abstract/?v=2" class="img-circle" />
-                </div>
-                <strong>{{genrename[6]}}</strong>
-            </li>
-            <li >
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[19]}}">
-                    <img src="http://lorempixel.com/45/45/abstract/?v=3" class="img-circle" />
-                </div>
-                <strong>{{genrename[19]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[7]}}">
-                    <img src="http://lorempixel.com/45/45/abstract/?v=4" class="img-circle" />
-                </div>
-                <strong>{{genrename[7]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[8]}}">
-                    <img src="http://lorempixel.com/45/45/abstract/?v=5" class="img-circle" />
-                </div>
-                <strong>{{genrename[8]}}</strong>
-            </li>
-        </ul>
-        </div>
-        <div class="column">
-		<ul class="listrap">
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[9]}}">
-                    <img src="http://lorempixel.com/45/45/nature/?v=1" class="img-circle" />
-                </div>
-                <strong>{{genrename[9]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[10]}}">
-                    <img src="http://lorempixel.com/45/45/nature/?v=2" class="img-circle" />
-                </div>
-                <strong>{{genrename[10]}}</strong>
-            </li>
-            <li >
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[11]}}">
-                    <img src="http://lorempixel.com/45/45/nature/?v=3" class="img-circle" />
-                </div>
-                <strong>{{genrename[11]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[12]}}">
-                    <img src="http://lorempixel.com/45/45/nature/?v=4" class="img-circle" />
-                </div>
-                <strong>{{genrename[12]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[13]}}">
-                    <img src="http://lorempixel.com/45/45/nature/?v=5" class="img-circle" />
-                </div>
-                <strong>{{genrename[13]}}</strong>
-            </li>
-        </ul>
-        </div>
-        <div class="column">
-		<ul class="listrap">
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[14]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=1" class="img-circle" />
-                </div>
-                <strong>{{genrename[14]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[15]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=2" class="img-circle" />
-                </div>
-                <strong>{{genrename[15]}}</strong>
-            </li>
-            <li >
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[16]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=3" class="img-circle" />
-                </div>
-                <strong>{{genrename[16]}}</strong>
-            </li>
-            <li>
-                <div   >
-                     <input type="checkbox" name="check" value="{{genreid[17]}}">
-                    <img src="http://lorempixel.com/45/45/people/?v=4" class="img-circle" />
-                </div>
-                <strong>{{genrename[17]}}</strong>
-            </li>
-        </ul>
+{#                #}
+{#                <div >#}
+{#                    <input type="checkbox" name="check" value="{{genreid[0]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=1" class="img-circle" />#}
+{##}
+{#                </div>#}
+{#                <strong>{{genrename[0]}}</strong>#}
+{#            </li>#}
+{#            <li >#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[1]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=2" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[1]}}</strong>#}
+{#            </li>#}
+{#            <li >#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[2]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=3" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[2]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[3]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=4" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[3]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[4]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=5" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[4]}}</strong>#}
+{#            </li>#}
+{#        </ul>#}
+{#        </div>#}
+{#        <div class="column">#}
+{#		<ul class="listrap">#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[5]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/abstract/?v=1" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[5]}}</strong>#}
+{#            </li>#}
+{#            <li >#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[6]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/abstract/?v=2" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[6]}}</strong>#}
+{#            </li>#}
+{#            <li >#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[19]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/abstract/?v=3" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[19]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[7]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/abstract/?v=4" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[7]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[8]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/abstract/?v=5" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[8]}}</strong>#}
+{#            </li>#}
+{#        </ul>#}
+{#        </div>#}
+{#        <div class="column">#}
+{#		<ul class="listrap">#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[9]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/nature/?v=1" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[9]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[10]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/nature/?v=2" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[10]}}</strong>#}
+{#            </li>#}
+{#            <li >#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[11]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/nature/?v=3" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[11]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[12]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/nature/?v=4" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[12]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[13]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/nature/?v=5" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[13]}}</strong>#}
+{#            </li>#}
+{#        </ul>#}
+{#        </div>#}
+{#        <div class="column">#}
+{#		<ul class="listrap">#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[14]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=1" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[14]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[15]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=2" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[15]}}</strong>#}
+{#            </li>#}
+{#            <li >#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[16]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=3" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[16]}}</strong>#}
+{#            </li>#}
+{#            <li>#}
+{#                <div   >#}
+{#                     <input type="checkbox" name="check" value="{{genreid[17]}}">#}
+{#                    <img src="http://lorempixel.com/45/45/people/?v=4" class="img-circle" />#}
+{#                </div>#}
+{#                <strong>{{genrename[17]}}</strong>#}
+{#            </li>#}
+{#        </ul>#}
         </div>
 
         </ul>

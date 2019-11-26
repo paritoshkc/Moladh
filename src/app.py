@@ -192,7 +192,7 @@ def welcome():
     username = database.readUser(con, user)
     session["USERNAME"] = user
     session["USER_ID"] = username
-    return render_template('Genre-selection.html' ,genrename=genre, genreid=genre_ID)
+    return render_template('Genre-selection.html' ,name_id=zip(genre,genre_ID))
 
 
 @app.route('/genre_page', methods=['POST'])

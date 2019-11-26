@@ -5,7 +5,7 @@ def get_api_key():
 
 
 def get_number_of_movies_to_be_displayed():
-    number = 16
+    number = 20
     return number
 
 
@@ -15,22 +15,22 @@ def get_percentage_decrease_in_genre():
 
 
 def get_number_of_similar_user_movies():
-    number_of_movies = 5
+    number_of_movies = 15
     return number_of_movies
 
 
 def get_number_of_trending_movies():
-    number_of_movies = 5
+    number_of_movies = 15
     return number_of_movies
 
 
 def get_number_of_interested_in_movies():
-    number_of_movies = 5
+    number_of_movies = 15
     return number_of_movies
 
 
 def get_number_of_continue_watching_movies():
-    number_of_movies = 10
+    number_of_movies = 15
     return number_of_movies
 
 

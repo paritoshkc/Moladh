@@ -89,6 +89,7 @@ def fetch_movies_for_user(user_id):
     for i in user_genre_preferences:
         weight = (i[1] * no_of_movies) / 100
         genre_weight[str(i[0])] = round(weight)
+    print(genre_weight)
     filtered_results = []
     for i in user_genre_preferences:
         results = fetch_movies_by_genre(i[0])
@@ -359,8 +360,6 @@ def get_recommended_movies_for_user(user_id):
     for user_movie in users_movies:
         users_movie_ids.append(user_movie.id)
     similar_user_movies = get_similar_user_movies(user_id)
-    for similar_user_movies in similar_user_movies:
-        print(similar_user_movies.original_title, ' ', similar_user_movies.id)
     trending_movies = get_trending_movies(user_id)
     interested_in_movies = get_interested_in_movies_for_user(user_id)
     recommended_movies = []
@@ -411,6 +410,8 @@ def get_continue_watching_movies_for_user(user_id):
 
 #get_recommended_movies_for_user('1234')
 
+"""
 movies = fetch_movies_for_user('1234')
 value = '[12, 18]&&' + str(movies[0].id)
 user_watches_movie('1234', value, True, True)
+"""

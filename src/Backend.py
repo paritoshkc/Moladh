@@ -1,7 +1,7 @@
 import requests
 import json
-import database
-import FinalVariables
+from src import database
+from src import FinalVariables
 import urllib.parse
 import operator
 
@@ -34,6 +34,16 @@ def deserialize_movie_date(movie_date):
                                 movie_date['poster_path'], movie_date['genre_ids'])
     return movie_object
 
+
+def reset_user_preferences(user_id):
+    """----------------------------------------------------------------------
+    Function to reset user preferences
+    ----------------------------------------------------------------------"""
+    database.delete_user_preferences(conn, user_id)
+    return 1
+
+
+reset_user_preferences('3342')
 
 def user_watches_movie(user_id, movie_id_and_name, user_liked, user_watched):
     """----------------------------------------------------------------------

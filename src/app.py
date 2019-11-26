@@ -169,7 +169,7 @@ def register1():
             return render_template('movie-page.html', poster_id_title=zip(combine_id,movie_title,movie_poster),might_id_title_poster=zip(might_like_id,might_like_title,might_like_poster),continue_id_title_poster=zip(continue_watch_id,continue_watch_title,continue_watch_poster))
 
         else:
-         return render_template('login-page.html')
+         return render_template('LoginPage.html',msg="Wrong Username or Password")
 
 
 @app.route('/registered', methods=['POST'])

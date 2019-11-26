@@ -95,7 +95,12 @@ body {
   background: #FFF linear-gradient(to bottom, #3F567C, #B5CCC6) no-repeat;
   font-family: Open Sans, sans-serif;
 }
-p { word-break: break-all ;white-space: normal;}
+.movie{
+    word-wrap: break-word;
+    word-break: normal;
+    width: 98px;
+    font-size: 14px;
+}
 a {
   text-decoration: none;
   transition-duration: .3s;
@@ -523,7 +528,7 @@ a:hover {
                    {% for combine_id , movie_title,movie_poster  in poster_id_title %}
                         <li onclick="myFunction(this.id)" id="{{ combine_id }}">
                             <img src="https://image.tmdb.org/t/p/w92/{{movie_poster}}" alt="" class="cover" />
-                             <p class="title">{{movie_title}}</p>
+                             <p class="movie">{{movie_title}}</p>
                         </li>
                     {% endfor %}
           </ul>
@@ -540,7 +545,7 @@ a:hover {
               {% for combine_id , movie_title ,movie_poster  in might_id_title_poster %}
                         <li onclick="myFunction(this.id)" id="{{ combine_id }}">
                             <img src="https://image.tmdb.org/t/p/w92/{{movie_poster}}" alt="" class="cover" />
-                            <p class="title">{{movie_title}}</p>
+                            <p class="movie">{{movie_title}}</p>
                         </li>
                     {% endfor %}
           </ul>
@@ -557,7 +562,7 @@ a:hover {
                 {% for combine_id , movie_title , movie_poster in continue_id_title_poster %}
                         <li onclick="myFunction(this.id)" id="{{ combine_id }}">
                             <img src="https://image.tmdb.org/t/p/w92/{{movie_poster}}" alt="" class="cover" />
-                            <p class="title">{{movie_title}}</p>
+                            <p class="movie">{{movie_title}}</p>
                         </li>
                     {% endfor %}
 

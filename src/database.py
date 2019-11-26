@@ -99,6 +99,13 @@ class Database():
             conn.commit()
 
 
+    def delete_user_preferences(self, conn, user_id):
+        cur = conn.cursor()
+        query = 'DELETE FROM User_Preferences WHERE ID = ' + str(user_id)
+        cur.execute(query)
+        conn.commit()
+
+
     def createConnection(self):
         conn = sqlite3.connect("Moladh.db", check_same_thread=False)
         return conn

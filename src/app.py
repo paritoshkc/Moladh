@@ -117,6 +117,10 @@ def get_search_movies(url):
 def hello():
     return render_template("LoginPage.html")
 
+@app.route('/login')
+def login():
+    return render_template("LoginPage.html")
+
 
 @app.route('/registration')
 def reg():

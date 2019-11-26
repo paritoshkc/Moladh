@@ -632,6 +632,9 @@ a:hover {
               <div class="title-bar">
                 <div class="left">
                   <p class="bold">Recommended Movies</p>
+                  <form method="POST" action="/reset_page">
+                    <button class="glow-on-hover" type="submit" style="position: absolute; right: 120px;top:10px;width: 130px;height: 25px"> Reset Genres</button>
+                  </form>
                     <form action='/login' method='GET'>
                         <button class="glow-on-hover" type="submit" style="position: absolute; right: 10px;top:10px;width: 100px;height: 25px"> Logout</button>
                     </form>
@@ -682,16 +685,15 @@ a:hover {
                     {% endfor %}
 
             </ul>
-            <form align="center" method="POST" action="/reset_page">
-            <input type="submit" class="glow-on-hover" value="Update your Preferences"/>
-          </form>
             </div>
-            <h3 style="color: #2c2c2c;position: center">@Team Moreo</h3>
 
           </div> <!-- main -->
 
         </div> <!-- window -->
       </div> <!-- window margin -->
+      <footer>
+        <h3 style="color: #2c2c2c;position: center">@Team Moreau</h3>
+      </footer>
 
 </body>
 

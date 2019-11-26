@@ -195,6 +195,10 @@ def welcome():
     return render_template('Genre-selection.html' ,name_id=zip(genre,genre_ID))
 
 
+@app.route('/reset_page', methods=['POST'])
+def reset():
+    return render_template('Genre-reselection.html' ,name_id=zip(genre,genre_ID))
+
 @app.route('/genre_page', methods=['POST'])
 def genre_section():
     # user = request.form['username']
@@ -221,6 +225,33 @@ def genre_section():
     continue_watch_title,continue_watch_poster,continue_watch_id=fetch_continue_watch_movies()
     return render_template('movie-page.html',poster_id_title=zip(combine_id,movie_title,movie_poster),might_id_title_poster=zip(might_like_id,might_like_title,might_like_poster),continue_id_title_poster=zip(continue_watch_id,continue_watch_title,continue_watch_poster))
 
+
+@app.route('/genre_repage', methods=['POST'])
+def genre_resection():
+    # user = request.form['username']
+    be.reset_user_preferences(session.get("USER_ID")[-1])
+    con_genre = database.createConnection()
+    # database.createTables(con_genre)s
+    checkboxes = request.form.getlist('check')
+    test_arr = []
+    genre_name = []
+    total_genres = len(checkboxes)
+    percent = []
+    i = 0
+    for check in checkboxes:
+        test_arr.append(str(check))
+        percent.append(round((100 / total_genres), 2))
+        print(test_arr)
+        # id=database.readGenreID(con_genre,test_arr[i])
+        print(session)
+        database.input_preferences(conn=con_genre, username=session.get("USER_ID")[-1], genre=test_arr[i],
+                                   percent=percent[i])
+        i = i + 1
+    # print(user_set)
+    movie_id,movie_title,movie_poster,genre_id,genre_name,combine_id=fetch_movies()
+    might_like_title,might_like_poster,might_like_id=fetch_user_might_like_movies()
+    continue_watch_title,continue_watch_poster,continue_watch_id=fetch_continue_watch_movies()
+    return render_template('movie-page.html',poster_id_title=zip(combine_id,movie_title,movie_poster),might_id_title_poster=zip(might_like_id,might_like_title,might_like_poster),continue_id_title_poster=zip(continue_watch_id,continue_watch_title,continue_watch_poster))
 
 @app.route('/select-page',methods=['POST'])
 def get_search_result():
